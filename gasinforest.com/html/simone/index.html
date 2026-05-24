@@ -3,132 +3,449 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Loweh Goodness - Junior DevOps Engineer. Building real infrastructure, automating deployments, and getting better at it every single day.">
+  <meta name="description" content="Loweh Goodness - Junior DevOps Engineer based in Cameroon, specialising in CI/CD, Docker, Kubernetes, Terraform, and cloud infrastructure.">
   <title>Loweh Goodness | DevOps Engineer</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
   <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg: #0a0a0a;
-      --surface: #111111;
-      --surface2: #181818;
-      --border: #222222;
-      --accent: #e8612a;
-      --accent2: #f0845a;
-      --text: #f0ece6;
-      --muted: #888880;
-      --light: #c8c4bc;
+      --bg: #0b0c0e; --bg2: #111316; --bg3: #181b1f;
+      --accent: #e8622a; --accent2: #f0854d;
+      --text: #f0ede8; --muted: #8a8680; --border: #222429; --white: #ffffff;
     }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
     html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; font-size: 16px; overflow-x: hidden; }
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 300;
-      line-height: 1.7;
-      overflow-x: hidden;
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 2.5rem; background: rgba(11,12,14,0.88); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
+    .nav-brand { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.15rem; color: var(--white); text-decoration: none; letter-spacing: -0.02em; }
+    .nav-brand span { color: var(--accent); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta { background: var(--accent); color: var(--white); padding: 0.5rem 1.25rem; border-radius: 6px; text-decoration: none; font-size: 0.875rem; font-weight: 600; transition: background 0.2s; }
+    .nav-cta:hover { background: var(--accent2); }
+
+    #home { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 4rem; padding: 8rem 2.5rem 5rem; max-width: 1200px; margin: 0 auto; }
+    .hero-left { display: flex; flex-direction: column; gap: 1.5rem; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(232,98,42,0.12); border: 1px solid rgba(232,98,42,0.3); color: var(--accent); padding: 0.4rem 1rem; border-radius: 100px; font-size: 0.8rem; font-weight: 600; width: fit-content; letter-spacing: 0.05em; text-transform: uppercase; }
+    .hero-badge::before { content: ''; width: 7px; height: 7px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.4)} }
+    .hero-title { font-family: 'Syne', sans-serif; font-size: clamp(2.4rem, 5vw, 3.8rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.03em; color: var(--white); }
+    .hero-title .accent { color: var(--accent); }
+    .hero-sub { font-size: 1.05rem; color: var(--muted); font-weight: 300; max-width: 480px; font-style: italic; }
+    .hero-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .hero-tag { background: var(--bg3); border: 1px solid var(--border); color: var(--muted); padding: 0.3rem 0.8rem; border-radius: 4px; font-size: 0.78rem; }
+    .hero-buttons { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 0.5rem; }
+    .btn-primary { background: var(--accent); color: var(--white); padding: 0.75rem 1.75rem; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: background 0.2s, transform 0.2s; display: inline-flex; align-items: center; gap: 0.5rem; }
+    .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); }
+    .btn-outline { border: 1px solid var(--border); color: var(--text); padding: 0.75rem 1.75rem; border-radius: 6px; text-decoration: none; font-weight: 500; font-size: 0.9rem; transition: border-color 0.2s, transform 0.2s; display: inline-flex; align-items: center; gap: 0.5rem; }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+    .hero-socials { display: flex; gap: 1rem; align-items: center; }
+    .hero-socials a { color: var(--muted); text-decoration: none; font-size: 0.82rem; display: flex; align-items: center; gap: 0.4rem; transition: color 0.2s; }
+    .hero-socials a:hover { color: var(--accent); }
+    .hero-right { display: flex; justify-content: center; align-items: center; }
+    .hero-photo-wrap { position: relative; width: 340px; height: 420px; }
+    .hero-photo-wrap::before { content: ''; position: absolute; inset: -3px; background: linear-gradient(135deg, var(--accent), transparent 60%); border-radius: 16px; z-index: 0; }
+    .hero-photo-wrap img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: 14px; display: block; }
+    .hero-photo-badge { position: absolute; bottom: -1.5rem; left: -1.5rem; z-index: 2; background: var(--bg2); border: 1px solid var(--border); padding: 0.75rem 1rem; border-radius: 10px; font-size: 0.78rem; }
+    .hero-photo-badge strong { display: block; color: var(--white); font-family: 'Syne', sans-serif; }
+    .hero-photo-badge span { color: var(--muted); }
+
+    .stats-bar { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 2rem 2.5rem; }
+    .stats-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(5, 1fr); gap: 2rem; text-align: center; }
+    .stat-num { font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800; color: var(--accent); }
+    .stat-label { font-size: 0.78rem; color: var(--muted); margin-top: 0.25rem; }
+
+    section { padding: 6rem 2.5rem; }
+    .section-inner { max-width: 1200px; margin: 0 auto; }
+    .section-label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
+    .section-title { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 800; line-height: 1.15; letter-spacing: -0.02em; color: var(--white); margin-bottom: 1.5rem; }
+    .section-title .accent { color: var(--accent); }
+
+    #about { background: var(--bg2); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+    .about-text p { color: var(--muted); margin-bottom: 1rem; line-height: 1.8; }
+    .about-text p strong { color: var(--text); }
+    .availability-card { background: var(--bg3); border: 1px solid var(--border); border-radius: 12px; padding: 1.75rem; margin-top: 2rem; }
+    .availability-card h4 { font-family: 'Syne', sans-serif; font-weight: 700; color: var(--white); margin-bottom: 1rem; font-size: 1rem; }
+    .avail-list { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .avail-list li { display: flex; align-items: center; gap: 0.6rem; color: var(--muted); font-size: 0.875rem; }
+    .avail-list li::before { content: '✓'; color: var(--accent); font-weight: 700; }
+    .about-meta { display: flex; flex-direction: column; gap: 1.5rem; }
+    .meta-card { background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 1rem; }
+    .meta-icon { font-size: 1.5rem; }
+    .meta-label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+    .meta-value { font-weight: 600; color: var(--white); font-size: 0.95rem; margin-top: 0.1rem; }
+
+    #skills { background: var(--bg); }
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+    .skill-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 1.75rem; transition: border-color 0.2s, transform 0.2s; }
+    .skill-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+    .skill-card-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 1rem; }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .skill-tag { background: var(--bg3); border: 1px solid var(--border); color: var(--text); padding: 0.3rem 0.75rem; border-radius: 4px; font-size: 0.8rem; }
+
+    #experience { background: var(--bg2); }
+    .exp-list { display: flex; flex-direction: column; gap: 0; margin-top: 3rem; }
+    .exp-item { display: grid; grid-template-columns: 180px 1fr; gap: 2.5rem; padding: 2.5rem 0; border-bottom: 1px solid var(--border); }
+    .exp-item:first-child { border-top: 1px solid var(--border); }
+    .exp-date { color: var(--muted); font-size: 0.85rem; padding-top: 0.25rem; }
+    .exp-badge { display: inline-block; background: rgba(232,98,42,0.12); border: 1px solid rgba(232,98,42,0.3); color: var(--accent); padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.72rem; font-weight: 600; margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .exp-role { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.1rem; color: var(--white); margin-bottom: 0.25rem; }
+    .exp-company { color: var(--muted); font-size: 0.875rem; margin-bottom: 1rem; }
+    .exp-points { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    .exp-points li { color: var(--muted); font-size: 0.875rem; line-height: 1.6; padding-left: 1.2rem; position: relative; }
+    .exp-points li::before { content: '—'; position: absolute; left: 0; color: var(--accent); }
+    .exp-techs { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
+    .exp-tech { background: var(--bg3); border: 1px solid var(--border); color: var(--muted); padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.75rem; }
+
+    #projects { background: var(--bg); }
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+    .project-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; display: flex; flex-direction: column; gap: 1rem; transition: border-color 0.2s, transform 0.2s; }
+    .project-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+    .project-status { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; width: fit-content; }
+    .project-status.live { color: #4caf82; }
+    .project-status.live::before { content: ''; width: 6px; height: 6px; background: #4caf82; border-radius: 50%; }
+    .project-status.progress { color: var(--accent); }
+    .project-status.progress::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; }
+    .project-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.05rem; color: var(--white); line-height: 1.3; }
+    .project-desc { color: var(--muted); font-size: 0.875rem; line-height: 1.7; flex: 1; }
+    .project-techs { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .project-tech { background: var(--bg3); border: 1px solid var(--border); color: var(--muted); padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.75rem; }
+    .project-links { display: flex; gap: 0.75rem; }
+    .project-link { color: var(--accent); text-decoration: none; font-size: 0.82rem; font-weight: 600; display: flex; align-items: center; gap: 0.3rem; border: 1px solid rgba(232,98,42,0.3); padding: 0.35rem 0.8rem; border-radius: 4px; transition: background 0.2s; }
+    .project-link:hover { background: rgba(232,98,42,0.1); }
+
+    #contribute { background: var(--bg2); }
+    .contribute-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+    .contribute-card { background: var(--bg3); border: 1px solid var(--border); border-radius: 12px; padding: 1.75rem; transition: border-color 0.2s; }
+    .contribute-card:hover { border-color: var(--accent); }
+    .contribute-num { font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800; color: rgba(232,98,42,0.2); margin-bottom: 0.75rem; }
+    .contribute-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; color: var(--white); margin-bottom: 0.75rem; }
+    .contribute-desc { color: var(--muted); font-size: 0.875rem; line-height: 1.7; }
+
+    #journey { background: var(--bg); }
+    .journey-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+    .journey-text p { color: var(--muted); line-height: 1.8; margin-bottom: 1rem; }
+    .journey-text p strong { color: var(--text); }
+    .journey-quote { border-left: 3px solid var(--accent); padding-left: 1.5rem; margin: 2rem 0; font-style: italic; color: var(--muted); }
+    .timeline { display: flex; flex-direction: column; gap: 0; }
+    .timeline-item { display: flex; gap: 1.5rem; padding-bottom: 2rem; position: relative; }
+    .timeline-item:not(:last-child)::after { content: ''; position: absolute; left: 11px; top: 24px; width: 1px; bottom: 0; background: var(--border); }
+    .timeline-dot { width: 24px; height: 24px; border-radius: 50%; background: var(--bg2); border: 2px solid var(--accent); flex-shrink: 0; margin-top: 2px; display: flex; align-items: center; justify-content: center; }
+    .timeline-dot::after { content: ''; width: 8px; height: 8px; background: var(--accent); border-radius: 50%; }
+    .timeline-date { font-size: 0.78rem; color: var(--accent); font-weight: 600; margin-bottom: 0.25rem; }
+    .timeline-title { font-family: 'Syne', sans-serif; font-weight: 700; color: var(--white); margin-bottom: 0.35rem; }
+    .timeline-desc { color: var(--muted); font-size: 0.875rem; line-height: 1.6; }
+
+    #contact { background: var(--bg2); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; }
+    .contact-links { display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem; }
+    .contact-link { display: flex; align-items: center; gap: 1rem; background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem 1.5rem; text-decoration: none; color: var(--text); transition: border-color 0.2s, transform 0.2s; }
+    .contact-link:hover { border-color: var(--accent); transform: translateX(4px); }
+    .contact-link-icon { font-size: 1.25rem; width: 36px; text-align: center; }
+    .contact-link-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; }
+    .contact-link-value { font-weight: 500; color: var(--white); font-size: 0.9rem; margin-top: 0.1rem; }
+    .contact-right h3 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.4rem; color: var(--white); margin-bottom: 1rem; line-height: 1.3; }
+    .contact-right p { color: var(--muted); margin-bottom: 1.5rem; font-size: 0.9rem; line-height: 1.7; }
+    .open-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 2rem; }
+    .open-list li { display: flex; align-items: center; gap: 0.6rem; color: var(--muted); font-size: 0.875rem; }
+    .open-list li::before { content: '✓'; color: var(--accent); font-weight: 700; }
+    .contact-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    footer { background: var(--bg); border-top: 1px solid var(--border); padding: 2.5rem; text-align: center; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; }
+    .footer-name { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1rem; color: var(--white); margin-bottom: 0.25rem; }
+    .footer-sub { color: var(--muted); font-size: 0.8rem; margin-bottom: 1.25rem; }
+    .footer-links { display: flex; justify-content: center; gap: 1.5rem; }
+    .footer-links a { color: var(--muted); text-decoration: none; font-size: 0.8rem; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--accent); }
+    .footer-copy { color: var(--muted); font-size: 0.75rem; margin-top: 1.25rem; }
+
+    @media (max-width: 900px) {
+      #home { grid-template-columns: 1fr; padding-top: 7rem; text-align: center; }
+      .hero-right { display: none; }
+      .hero-tags, .hero-buttons, .hero-socials { justify-content: center; }
+      .about-grid, .journey-grid, .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
+      .stats-inner { grid-template-columns: repeat(3, 1fr); }
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      section { padding: 4rem 1.5rem; }
     }
 
-    h1, h2, h3, h4, h5, .brand {
-      font-family: 'Syne', sans-serif;
-    }
+    .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
 
-    /* NAV */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      padding: 1.2rem 4rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(10,10,10,0.85);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-    }
+  <nav>
+    <a class="nav-brand" href="#home">Loweh<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#journey">Journey</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a class="nav-cta" href="cv.pdf" download>Download CV</a>
+  </nav>
 
-    .brand {
-      font-size: 1.1rem;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      color: var(--text);
-      text-decoration: none;
-    }
+  <section id="home">
+    <div class="hero-left fade-up">
+      <div class="hero-badge">Junior DevOps Engineer</div>
+      <h1 class="hero-title">Hello, I'm<br><span class="accent">Loweh Goodness.</span></h1>
+      <p class="hero-sub">Building real infrastructure, automating deployments, and getting better at it every single day.</p>
+      <div class="hero-tags">
+        <span class="hero-tag">NextGen Playground</span>
+        <span class="hero-tag">Remote-ready</span>
+        <span class="hero-tag">Cameroon 🇨🇲</span>
+      </div>
+      <div class="hero-buttons">
+        <a class="btn-primary" href="cv.pdf" download>⬇ Download CV</a>
+        <a class="btn-outline" href="#contact">Get in Touch</a>
+      </div>
+      <div class="hero-socials">
+        <a href="https://www.linkedin.com/in/loweh-goodness-63682a281/" target="_blank">🔗 LinkedIn</a>
+        <a href="https://github.com/goodnessloweh-git" target="_blank">🐙 GitHub</a>
+        <a href="mailto:goodnessloweh5@gmail.com">✉ Email</a>
+      </div>
+    </div>
+    <div class="hero-right fade-up">
+      <div class="hero-photo-wrap">
+        <img src="img/loweh.png" alt="Loweh Goodness">
+        <div class="hero-photo-badge">
+          <strong>Loweh Goodness</strong>
+          <span>Junior DevOps Engineer · Cameroon 🇨🇲</span>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    .brand span { color: var(--accent); }
+  <div class="stats-bar">
+    <div class="stats-inner">
+      <div><div class="stat-num">1+</div><div class="stat-label">Year Learning</div></div>
+      <div><div class="stat-num">2</div><div class="stat-label">Projects Live</div></div>
+      <div><div class="stat-num">AWS + Docker</div><div class="stat-label">Primary Stack</div></div>
+      <div><div class="stat-num">10+</div><div class="stat-label">Tools Mastered</div></div>
+      <div><div class="stat-num">Cohort 1</div><div class="stat-label">Micro Internship</div></div>
+    </div>
+  </div>
 
-    .nav-links {
-      display: flex;
-      gap: 2rem;
-      list-style: none;
-    }
+  <section id="about">
+    <div class="section-inner">
+      <div class="about-grid">
+        <div class="about-text fade-up">
+          <p class="section-label">Who I Am</p>
+          <h2 class="section-title">Junior DevOps Engineer<br>based in <span class="accent">Cameroon</span></h2>
+          <p>My name is <strong>Loweh Goodness</strong> and I'm a junior DevOps engineer with a growing passion for cloud infrastructure, automation, and getting things to actually work in production — not just on paper.</p>
+          <p>I started my DevOps journey in <strong>2024</strong> and built my foundation at <strong>NextGen Playground</strong> where I got hands-on with Linux, networking, AWS, Docker, Kubernetes, Terraform, Ansible, and monitoring tools like Prometheus and Grafana.</p>
+          <p>Since joining <strong>NextGen Playground in 2025</strong>, I've moved from theory to practice — deploying live infrastructure, building full CI/CD pipelines, and working on production-grade projects on AWS.</p>
+          <div class="availability-card">
+            <h4>🟢 Open to Opportunities</h4>
+            <ul class="avail-list">
+              <li>Full-time junior DevOps roles</li>
+              <li>DevOps internship programmes</li>
+              <li>Remote or Cameroon-based positions</li>
+              <li>Project collaborations and open source</li>
+            </ul>
+          </div>
+        </div>
+        <div class="about-meta fade-up">
+          <div class="meta-card"><div class="meta-icon">📍</div><div><div class="meta-label">Location</div><div class="meta-value">Cameroon 🇨🇲 · Available globally (remote)</div></div></div>
+          <div class="meta-card"><div class="meta-icon">🎓</div><div><div class="meta-label">Training</div><div class="meta-value">NextGen Playground · Mr. Durrell</div></div></div>
+          <div class="meta-card"><div class="meta-icon">🚀</div><div><div class="meta-label">Status</div><div class="meta-value">Open to Roles ✓</div></div></div>
+          <div class="meta-card"><div class="meta-icon">🌐</div><div><div class="meta-label">Community</div><div class="meta-value">She Builds Tech — Founder</div></div></div>
+          <div class="meta-card"><div class="meta-icon">💬</div><div><div class="meta-label">Languages</div><div class="meta-value">English 🇬🇧 · French 🇫🇷</div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    .nav-links a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.85rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      transition: color 0.2s;
-    }
+  <section id="skills">
+    <div class="section-inner">
+      <p class="section-label fade-up">Tools & Tech</p>
+      <h2 class="section-title fade-up">DevOps <span class="accent">Tools & Stack</span></h2>
+      <div class="skills-grid">
+        <div class="skill-card fade-up"><div class="skill-card-title">☁ Cloud & Infrastructure</div><div class="skill-tags"><span class="skill-tag">AWS EC2</span><span class="skill-tag">S3 Buckets</span><span class="skill-tag">VPC</span><span class="skill-tag">IAM</span></div></div>
+        <div class="skill-card fade-up"><div class="skill-card-title">🐳 Containers & Orchestration</div><div class="skill-tags"><span class="skill-tag">Docker</span><span class="skill-tag">Kubernetes</span><span class="skill-tag">Docker Hub</span></div></div>
+        <div class="skill-card fade-up"><div class="skill-card-title">⚙ CI/CD & Automation</div><div class="skill-tags"><span class="skill-tag">GitHub Actions</span><span class="skill-tag">Git</span><span class="skill-tag">Bash</span><span class="skill-tag">Webhooks</span></div></div>
+        <div class="skill-card fade-up"><div class="skill-card-title">🏗 Infrastructure as Code</div><div class="skill-tags"><span class="skill-tag">Terraform</span><span class="skill-tag">Ansible</span><span class="skill-tag">IaC Principles</span></div></div>
+        <div class="skill-card fade-up"><div class="skill-card-title">📊 Monitoring & Observability</div><div class="skill-tags"><span class="skill-tag">Prometheus</span><span class="skill-tag">Grafana</span><span class="skill-tag">UptimeRobot</span><span class="skill-tag">Alerting</span></div></div>
+        <div class="skill-card fade-up"><div class="skill-card-title">🖥 OS & Networking</div><div class="skill-tags"><span class="skill-tag">Linux</span><span class="skill-tag">Ubuntu</span><span class="skill-tag">DNS</span><span class="skill-tag">Networking</span></div></div>
+        <div class="skill-card fade-up"><div class="skill-card-title">🔀 Version Control</div><div class="skill-tags"><span class="skill-tag">Git</span><span class="skill-tag">GitHub</span><span class="skill-tag">Branching</span><span class="skill-tag">Pull Requests</span></div></div>
+        <div class="skill-card fade-up"><div class="skill-card-title">🔒 Security Basics</div><div class="skill-tags"><span class="skill-tag">HTTPS / SSL</span><span class="skill-tag">IAM Policies</span><span class="skill-tag">GitHub Secrets</span></div></div>
+      </div>
+    </div>
+  </section>
 
-    .nav-links a:hover { color: var(--accent); }
+  <section id="experience">
+    <div class="section-inner">
+      <p class="section-label fade-up">Experience & Training</p>
+      <h2 class="section-title fade-up">Journey & <span class="accent">Experience</span></h2>
+      <div class="exp-list">
+        <div class="exp-item fade-up">
+          <div class="exp-date">2025 · Present</div>
+          <div>
+            <div class="exp-badge">Current</div>
+            <div class="exp-role">DevOps Engineer Trainee</div>
+            <div class="exp-company">NextGen Playground · Mentor: Mr. Durrell · Remote</div>
+            <ul class="exp-points">
+              <li>Built fully automated CI/CD pipelines — every push to main triggers GitHub Actions to build and push Docker images with zero manual steps</li>
+              <li>Deployed the talent-forge-devops project with Docker, GitHub Actions, and live monitoring</li>
+              <li>Deployed WordPress on AWS EKS using Terraform and Kubernetes with full CI/CD workflows</li>
+              <li>Set up Ansible playbooks for Nginx deployment, working with roles, handlers, and Jinja2 templates</li>
+              <li>Configured multi-region EC2 instances and Security Groups across AWS regions</li>
+              <li>Practised Gitflow branching, PR-based merging, and daily version control workflows</li>
+            </ul>
+            <div class="exp-techs"><span class="exp-tech">Docker</span><span class="exp-tech">Kubernetes</span><span class="exp-tech">Terraform</span><span class="exp-tech">Ansible</span><span class="exp-tech">GitHub Actions</span><span class="exp-tech">AWS</span></div>
+          </div>
+        </div>
+        <div class="exp-item fade-up">
+          <div class="exp-date">2024 · 2025</div>
+          <div>
+            <div class="exp-role">DevOps Student</div>
+            <div class="exp-company">NextGen Playground · Cameroon</div>
+            <ul class="exp-points">
+              <li>Studied Linux system administration, networking fundamentals, and server management</li>
+              <li>Learned AWS services (EC2, S3, IAM, VPC) with focus on real-world use cases</li>
+              <li>Introduced to containerisation with Docker and orchestration with Kubernetes</li>
+              <li>Practised infrastructure provisioning with Terraform and configuration management with Ansible</li>
+            </ul>
+            <div class="exp-techs"><span class="exp-tech">Linux</span><span class="exp-tech">AWS</span><span class="exp-tech">Docker</span><span class="exp-tech">Kubernetes</span><span class="exp-tech">Terraform</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    .nav-cta {
-      background: var(--accent);
-      color: #fff !important;
-      padding: 0.5rem 1.2rem;
-      border-radius: 2px;
-    }
+  <section id="projects">
+    <div class="section-inner">
+      <p class="section-label fade-up">Portfolio</p>
+      <h2 class="section-title fade-up">Highlighted <span class="accent">Projects</span></h2>
+      <div class="projects-grid">
+        <div class="project-card fade-up">
+          <div class="project-status live">Live · Production</div>
+          <div class="project-name">Talent Forge DevOps: Dockerised App with Full CI/CD Pipeline</div>
+          <p class="project-desc">A containerised web application with a complete end-to-end DevOps workflow. Every code push triggers GitHub Actions to build and push a Docker image to Docker Hub, which auto-deploys with zero manual steps.</p>
+          <div class="project-techs"><span class="project-tech">Docker</span><span class="project-tech">GitHub Actions</span><span class="project-tech">Docker Hub</span><span class="project-tech">CI/CD</span></div>
+          <div class="project-links"><a class="project-link" href="https://github.com/goodnessloweh-git" target="_blank">🐙 GitHub</a></div>
+        </div>
+        <div class="project-card fade-up">
+          <div class="project-status live">Live</div>
+          <div class="project-name">WordPress on AWS EKS with Terraform & Kubernetes</div>
+          <p class="project-desc">Deployed WordPress to AWS EKS using Terraform for infrastructure provisioning and Kubernetes for orchestration. Includes GitHub Actions CI/CD workflows for both app and infrastructure deployment.</p>
+          <div class="project-techs"><span class="project-tech">Terraform</span><span class="project-tech">Kubernetes</span><span class="project-tech">AWS EKS</span><span class="project-tech">Docker</span><span class="project-tech">GitHub Actions</span></div>
+          <div class="project-links"><a class="project-link" href="https://github.com/goodnessloweh-git" target="_blank">🐙 GitHub</a></div>
+        </div>
+        <div class="project-card fade-up">
+          <div class="project-status progress">In Progress</div>
+          <div class="project-name">Portfolio Site via GitHub Pages & Custom Domain</div>
+          <p class="project-desc">Built and deployed this personal portfolio with a custom domain. Configured DNS records, enforced HTTPS, and set up automatic deployment on every push to main.</p>
+          <div class="project-techs"><span class="project-tech">GitHub Pages</span><span class="project-tech">DNS</span><span class="project-tech">HTTPS</span><span class="project-tech">Git</span></div>
+          <div class="project-links"><a class="project-link" href="https://lowehtech.com" target="_blank">🌐 Live Site</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    .nav-cta:hover { background: var(--accent2); color: #fff !important; }
+  <section id="contribute">
+    <div class="section-inner">
+      <p class="section-label fade-up">My Value</p>
+      <h2 class="section-title fade-up">What I <span class="accent">Contribute</span></h2>
+      <div class="contribute-grid">
+        <div class="contribute-card fade-up"><div class="contribute-num">01</div><div class="contribute-title">Containerising with Docker</div><p class="contribute-desc">I package applications into Docker containers, write Dockerfiles, manage images on Docker Hub, and make sure what runs on my machine runs exactly the same everywhere else.</p></div>
+        <div class="contribute-card fade-up"><div class="contribute-num">02</div><div class="contribute-title">Building CI/CD Pipelines</div><p class="contribute-desc">I connect Git to deployment. A push to main triggers a GitHub Actions workflow that builds, tests, and ships the application automatically. No one has to touch a server.</p></div>
+        <div class="contribute-card fade-up"><div class="contribute-num">03</div><div class="contribute-title">Deploying to Cloud Platforms</div><p class="contribute-desc">I deploy web applications to cloud platforms like AWS, configure environments correctly, and make sure things stay up after they go live.</p></div>
+        <div class="contribute-card fade-up"><div class="contribute-num">04</div><div class="contribute-title">Writing Infrastructure as Code</div><p class="contribute-desc">I use Terraform to define and provision infrastructure so environments are consistent, repeatable, and version-controlled — not configured by hand and forgotten.</p></div>
+        <div class="contribute-card fade-up"><div class="contribute-num">05</div><div class="contribute-title">Setting Up Monitoring & Alerts</div><p class="contribute-desc">I set up UptimeRobot, Prometheus, and Grafana so the team knows about problems before users do. Downtime alerts, dashboards, and health checks built in.</p></div>
+        <div class="contribute-card fade-up"><div class="contribute-num">06</div><div class="contribute-title">Documenting What I Build</div><p class="contribute-desc">Every project gets a proper README, architecture notes, and clear steps to reproduce it. Good documentation is part of the work, not an afterthought.</p></div>
+      </div>
+    </div>
+  </section>
 
-    /* HERO */
-    .hero {
-      min-height: 100vh;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      align-items: center;
-      padding: 8rem 4rem 4rem;
-      gap: 4rem;
-      position: relative;
-      overflow: hidden;
-    }
+  <section id="journey">
+    <div class="section-inner">
+      <div class="journey-grid">
+        <div class="journey-text fade-up">
+          <p class="section-label">My Story</p>
+          <h2 class="section-title">Learning <span class="accent">Journey</span></h2>
+          <p>I joined <strong>NextGen Playground</strong> because I wanted to understand how software actually gets from a developer's laptop to a live server — and how to keep it running reliably once it gets there.</p>
+          <p>My learning started in <strong>2024</strong>, where I built my foundation in Linux, Docker, Kubernetes, Terraform, Ansible, Prometheus, and Grafana — not just as theory but as tools I actually used.</p>
+          <p>Since joining <strong>NextGen Playground in 2025</strong>, I've deployed live infrastructure, built full CI/CD pipelines that go from a git push all the way to a running container with zero manual steps, and worked on production-grade projects on AWS.</p>
+          <div class="journey-quote">"I don't wait until I understand everything before I start. I deploy something, watch it break, figure out why, and fix it. That is how I actually learn."<br><strong>— Loweh Goodness</strong></div>
+          <p>I also founded <strong>She Builds Tech</strong> — a community for women in tech and women transitioning into the field, because I believe representation matters in DevOps.</p>
+        </div>
+        <div class="fade-up">
+          <div class="timeline">
+            <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><div class="timeline-date">2024</div><div class="timeline-title">Started DevOps Journey</div><div class="timeline-desc">Began learning Linux, AWS, Docker, and networking fundamentals at NextGen Playground under Mentor Mr. Durrell.</div></div></div>
+            <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><div class="timeline-date">2025</div><div class="timeline-title">NextGen Playground — Theory to Practice</div><div class="timeline-desc">Deployed real infrastructure, built CI/CD pipelines, containerised applications, and started production projects on AWS EKS.</div></div></div>
+            <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><div class="timeline-date">2025</div><div class="timeline-title">Founded She Builds Tech</div><div class="timeline-desc">Created a community for women in tech and women transitioning into the industry — because representation in DevOps matters.</div></div></div>
+            <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><div class="timeline-date">2026 · Now</div><div class="timeline-title">Open to Junior DevOps Roles</div><div class="timeline-desc">Actively seeking internships and junior DevOps positions to do real work and grow alongside experienced engineers.</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: -20%;
-      right: -10%;
-      width: 600px;
-      height: 600px;
-      background: radial-gradient(circle, rgba(232,97,42,0.08) 0%, transparent 70%);
-      pointer-events: none;
-    }
+  <section id="contact">
+    <div class="section-inner">
+      <div class="contact-grid">
+        <div class="fade-up">
+          <p class="section-label">Get in Touch</p>
+          <h2 class="section-title">Let's <span class="accent">Connect</span></h2>
+          <div class="contact-links">
+            <a class="contact-link" href="mailto:goodnessloweh5@gmail.com"><div class="contact-link-icon">✉</div><div><div class="contact-link-label">Email</div><div class="contact-link-value">goodnessloweh5@gmail.com</div></div></a>
+            <a class="contact-link" href="https://wa.me/237682645478" target="_blank"><div class="contact-link-icon">💬</div><div><div class="contact-link-label">WhatsApp · Quick questions welcome</div><div class="contact-link-value">+237 682 645 478</div></div></a>
+            <a class="contact-link" href="https://www.linkedin.com/in/loweh-goodness-63682a281/" target="_blank"><div class="contact-link-icon">🔗</div><div><div class="contact-link-label">LinkedIn · Connect and DM me</div><div class="contact-link-value">Loweh Goodness</div></div></a>
+            <a class="contact-link" href="https://github.com/goodnessloweh-git" target="_blank"><div class="contact-link-icon">🐙</div><div><div class="contact-link-label">GitHub · All my projects</div><div class="contact-link-value">goodnessloweh-git</div></div></a>
+          </div>
+        </div>
+        <div class="contact-right fade-up">
+          <h3>Hiring, collaborating, or just want to say hi?</h3>
+          <p>I'm actively looking for internship opportunities and junior DevOps roles where I can do real work and grow alongside people who know more than me. I show up prepared, ask good questions, and put in the hours to figure things out.</p>
+          <ul class="open-list">
+            <li>Open to internships and junior DevOps roles</li>
+            <li>Remote or Cameroon-based positions</li>
+            <li>Available for project collaborations</li>
+            <li>Responds within 24 hours</li>
+          </ul>
+          <div class="contact-btns">
+            <a class="btn-primary" href="mailto:goodnessloweh5@gmail.com">Send an Email</a>
+            <a class="btn-outline" href="https://wa.me/237682645478" target="_blank">WhatsApp Me</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    .hero-tag {
-      display: inline-block;
-      font-size: 0.75rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--accent);
-      border: 1px solid rgba(232,97,42,0.3);
-      padding: 0.35rem 0.8rem;
-      border-radius: 2px;
-      margin-bottom: 1.5rem;
-    }
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-name">Loweh Goodness</div>
+      <div class="footer-sub">Junior DevOps Engineer · NextGen Playground · Cameroon 🇨🇲</div>
+      <div class="footer-links">
+        <a href="https://www.linkedin.com/in/loweh-goodness-63682a281/" target="_blank">LinkedIn</a>
+        <a href="https://github.com/goodnessloweh-git" target="_blank">GitHub</a>
+        <a href="mailto:goodnessloweh5@gmail.com">Email</a>
+        <a href="https://wa.me/237682645478" target="_blank">WhatsApp</a>
+      </div>
+      <div class="footer-copy">© 2026 Loweh Goodness · Cameroon 🇨🇲</div>
+    </div>
+  </footer>
 
-    .hero h1 {
-      font-size: clamp(2.8rem, 5vw, 4.5rem);
-      font-weight: 800;
-      line-height: 1.05;
-      margin-bottom: 1.5rem;
-      letter-spacing: -0.02em;
-    }
-
-    .hero h1 .accent { color: var(--accent); }
-
-    .hero-
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.id; });
+      navLinks.forEach(a => { a.style.color = a.getAttribute('href') === '#' + current ? 'var(--accent)' : ''; });
+    });
+  </script>
+</body>
+</html>
