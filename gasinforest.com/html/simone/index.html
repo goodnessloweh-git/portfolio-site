@@ -1,503 +1,1116 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <meta name="description" content="Loweh Goodness - Junior DevOps Engineer based in Cameroon, specialising in CI/CD, Docker, Kubernetes, Terraform, and cloud infrastructure.">
- <title>Loweh Goodness | DevOps Engineer</title>
- <style>
- *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
- :root {
- --bg: #ffffff; --bg2: #f7f7f8; --bg3: #f0f0f2;
- --accent: #e8622a; --accent2: #f0854d;
- --text: #1a1a1a; --muted: #6b6b6b; --border: #e2e2e6; --white: #ffffff;
- }
- html { scroll-behavior: smooth; }
- body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; font-size: 16px; overflow-x: hidden; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Loweh Goodness - Junior DevOps Engineer based in Cameroon, specialising in CI/CD, Docker, Kubernetes, Terraform, and cloud infrastructure.">
+<title>Loweh Goodness | DevOps Engineer</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
- /* NAV */
- nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 2.5rem; background: rgba(255,255,255,0.92); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
- .nav-brand { font-weight: 800; font-size: 1.15rem; color: var(--text); text-decoration: none; letter-spacing: -0.02em; }
- .nav-brand span { color: var(--accent); }
- .nav-links { display: flex; gap: 2rem; list-style: none; }
- .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: color 0.2s; }
- .nav-links a:hover { color: var(--text); }
- .nav-cta { background: var(--accent); color: var(--white); padding: 0.5rem 1.25rem; border-radius: 6px; text-decoration: none; font-size: 0.875rem; font-weight: 600; transition: background 0.2s; cursor: pointer; border: none; }
- .nav-cta:hover { background: var(--accent2); }
+/* ── TOKENS ── */
+:root {
+  --bg: #0f1117;
+  --bg2: #161b27;
+  --bg3: #1e2535;
+  --accent: #e8622a;
+  --accent2: #f0854d;
+  --text: #e8edf5;
+  --muted: #8896ab;
+  --border: rgba(255,255,255,0.08);
+  --border2: rgba(255,255,255,0.14);
+  --card-bg: #161b27;
+  --nav-bg: rgba(15,17,23,0.92);
+  --skill-bar-bg: #1e2535;
+  --tag-bg: rgba(232,98,42,0.12);
+  --tag-border: rgba(232,98,42,0.3);
+  --tag-color: #f0854d;
+  --white: #1e2535;
+}
+[data-theme="light"] {
+  --bg: #ffffff;
+  --bg2: #f7f7f8;
+  --bg3: #f0f0f2;
+  --text: #1a1a1a;
+  --muted: #6b6b6b;
+  --border: #e2e2e6;
+  --border2: #c8c8ce;
+  --card-bg: #ffffff;
+  --nav-bg: rgba(255,255,255,0.92);
+  --skill-bar-bg: #f0f0f2;
+  --tag-bg: #f5f0e8;
+  --tag-border: #e0d8c8;
+  --tag-color: #5a4a35;
+  --white: #ffffff;
+}
 
- /* HERO */
- #home { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 4rem; padding: 8rem 2.5rem 5rem; max-width: 1200px; margin: 0 auto; }
- .hero-left { display: flex; flex-direction: column; gap: 1.5rem; }
- .hero-badge { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(232,98,42,0.08); border: 1px solid rgba(232,98,42,0.3); color: var(--accent); padding: 0.4rem 1rem; border-radius: 100px; font-size: 0.8rem; font-weight: 600; width: fit-content; letter-spacing: 0.05em; text-transform: uppercase; }
- .hero-badge::before { content: ''; width: 7px; height: 7px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
- @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.4)} }
- .hero-title { font-size: clamp(2.4rem, 5vw, 3.8rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.03em; color: var(--text); }
- .hero-title .accent { color: var(--accent); }
- .hero-sub { font-size: 1.05rem; color: var(--muted); font-weight: 300; max-width: 480px; font-style: italic; }
- .hero-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
- .hero-tag { background: #f5f0e8; border: 1px solid #e0d8c8; color: #5a4a35; padding: 0.3rem 0.8rem; border-radius: 4px; font-size: 0.78rem; }
- .hero-buttons { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 0.5rem; }
- .btn-primary { background: var(--accent); color: var(--white); padding: 0.75rem 1.75rem; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: background 0.2s, transform 0.2s; display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer; border: none; }
- .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); }
- .btn-outline { border: 1px solid var(--border); color: var(--text); padding: 0.75rem 1.75rem; border-radius: 6px; text-decoration: none; font-weight: 500; font-size: 0.9rem; transition: border-color 0.2s, transform 0.2s; display: inline-flex; align-items: center; gap: 0.5rem; background: none; cursor: pointer; }
- .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
- .hero-socials { display: flex; gap: 1rem; align-items: center; }
- .hero-socials a { color: var(--muted); text-decoration: none; font-size: 0.82rem; display: flex; align-items: center; gap: 0.4rem; transition: color 0.2s; }
- .hero-socials a:hover { color: var(--accent); }
- .hero-right { display: flex; justify-content: center; align-items: center; }
- .hero-photo-wrap { position: relative; width: 340px; height: 500px; }
- .hero-photo-wrap::before { content: ''; position: absolute; inset: -3px; background: linear-gradient(135deg, var(--accent), transparent 60%); border-radius: 16px; z-index: 0; }
- .hero-photo-wrap img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: cover; object-position: center 80%; border-radius: 14px; display: block; }
- .hero-photo-badge { position: absolute; bottom: -1.5rem; left: -1.5rem; z-index: 2; background: var(--white); border: 1px solid var(--border); padding: 0.75rem 1rem; border-radius: 10px; font-size: 0.78rem; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
- .hero-photo-badge strong { display: block; color: var(--text); }
- .hero-photo-badge span { color: var(--muted); }
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+  overflow-x: hidden;
+  transition: background 0.3s, color 0.3s;
+}
 
- /* STATS */
- .stats-bar { background: var(--accent); border-top: none; border-bottom: none; padding: 2rem 2.5rem; }
- .stats-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(5, 1fr); gap: 2rem; text-align: center; }
- .stat-num { font-size: 2rem; font-weight: 800; color: #ffffff; }
- .stat-label { font-size: 0.78rem; color: rgba(255,255,255,0.85); margin-top: 0.25rem; }
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.25rem 2.5rem;
+  background: var(--nav-bg);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-brand { font-weight: 800; font-size: 1.15rem; color: var(--text); text-decoration: none; letter-spacing: -0.02em; }
+.nav-brand span { color: var(--accent); }
+.nav-links { display: flex; gap: 1.5rem; list-style: none; }
+.nav-links a { color: var(--muted); text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: color 0.2s; }
+.nav-links a:hover { color: var(--text); }
+.nav-right { display: flex; align-items: center; gap: 0.75rem; }
+.theme-btn {
+  background: var(--bg2); border: 1px solid var(--border2);
+  border-radius: 6px; padding: 0.4rem 0.9rem;
+  cursor: pointer; font-size: 0.8rem; color: var(--muted);
+  font-family: inherit; transition: all 0.2s;
+}
+.theme-btn:hover { border-color: var(--accent); color: var(--accent); }
+.nav-cta {
+  background: var(--accent); color: #fff;
+  padding: 0.5rem 1.25rem; border-radius: 6px;
+  text-decoration: none; font-size: 0.875rem; font-weight: 600;
+  transition: background 0.2s; cursor: pointer; border: none;
+}
+.nav-cta:hover { background: var(--accent2); }
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+.hamburger span { display: block; width: 22px; height: 2px; background: var(--muted); border-radius: 2px; transition: all 0.3s; }
+.mobile-nav {
+  display: none; position: fixed; inset: 64px 0 0 0; z-index: 99;
+  background: var(--nav-bg); backdrop-filter: blur(20px);
+  flex-direction: column; align-items: center; justify-content: center; gap: 2rem;
+}
+.mobile-nav.open { display: flex; }
+.mobile-nav a { font-size: 1.4rem; font-weight: 700; color: var(--text); text-decoration: none; }
+.mobile-nav a:hover { color: var(--accent); }
 
- /* SECTIONS */
- section { padding: 6rem 2.5rem; }
- .section-inner { max-width: 1200px; margin: 0 auto; }
- .section-label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
- .section-title { font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 800; line-height: 1.15; letter-spacing: -0.02em; color: var(--text); margin-bottom: 1.5rem; }
- .section-title .accent { color: var(--accent); }
+/* ── HERO ── */
+#home {
+  min-height: 100vh;
+  display: grid; grid-template-columns: 1fr 1fr;
+  align-items: center; gap: 4rem;
+  padding: 8rem 2.5rem 5rem;
+  max-width: 1200px; margin: 0 auto;
+}
+.hero-left { display: flex; flex-direction: column; gap: 1.5rem; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: rgba(232,98,42,0.10); border: 1px solid rgba(232,98,42,0.35);
+  color: var(--accent); padding: 0.4rem 1rem; border-radius: 100px;
+  font-size: 0.8rem; font-weight: 600; width: fit-content;
+  letter-spacing: 0.05em; text-transform: uppercase;
+}
+.hero-badge::before {
+  content: ''; width: 7px; height: 7px;
+  background: var(--accent); border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.4)} }
+.hero-title { font-size: clamp(2.4rem, 5vw, 3.8rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.03em; color: var(--text); }
+.hero-title .accent { color: var(--accent); }
+.hero-sub { font-size: 1.05rem; color: var(--muted); font-weight: 300; max-width: 480px; font-style: italic; }
+.hero-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.hero-tag { background: var(--tag-bg); border: 1px solid var(--tag-border); color: var(--tag-color); padding: 0.3rem 0.8rem; border-radius: 4px; font-size: 0.78rem; }
+.hero-buttons { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 0.5rem; }
+.btn-primary {
+  background: var(--accent); color: #fff;
+  padding: 0.75rem 1.75rem; border-radius: 6px;
+  text-decoration: none; font-weight: 600; font-size: 0.9rem;
+  transition: background 0.2s, transform 0.2s;
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  cursor: pointer; border: none;
+}
+.btn-primary:hover { background: var(--accent2); transform: translateY(-2px); }
+.btn-outline {
+  border: 1px solid var(--border2); color: var(--text);
+  padding: 0.75rem 1.75rem; border-radius: 6px;
+  text-decoration: none; font-weight: 500; font-size: 0.9rem;
+  transition: border-color 0.2s, transform 0.2s;
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: none; cursor: pointer;
+}
+.btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+.hero-socials { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+.hero-socials a { color: var(--muted); text-decoration: none; font-size: 0.82rem; display: flex; align-items: center; gap: 0.4rem; transition: color 0.2s; }
+.hero-socials a:hover { color: var(--accent); }
+.hero-right { display: flex; justify-content: center; align-items: center; }
+.hero-photo-wrap { position: relative; width: 340px; height: 500px; }
+.hero-photo-wrap::before {
+  content: ''; position: absolute; inset: -3px;
+  background: linear-gradient(135deg, var(--accent), transparent 60%);
+  border-radius: 16px; z-index: 0;
+}
+.hero-photo-wrap img {
+  position: relative; z-index: 1; width: 100%; height: 100%;
+  object-fit: cover; object-position: center 80%; border-radius: 14px; display: block;
+}
+.hero-photo-badge {
+  position: absolute; bottom: -1.5rem; left: -1.5rem; z-index: 2;
+  background: var(--card-bg); border: 1px solid var(--border2);
+  padding: 0.75rem 1rem; border-radius: 10px; font-size: 0.78rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.hero-photo-badge strong { display: block; color: var(--text); }
+.hero-photo-badge span { color: var(--muted); }
 
- /* ABOUT */
- #about { background: var(--bg2); }
- .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
- .about-text p { color: var(--muted); margin-bottom: 1rem; line-height: 1.8; }
- .about-text p strong { color: var(--text); }
- .availability-card { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 1.75rem; margin-top: 2rem; }
- .availability-card h4 { font-weight: 700; color: var(--text); margin-bottom: 1rem; font-size: 1rem; }
- .avail-list { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
- .avail-list li { display: flex; align-items: center; gap: 0.6rem; color: var(--muted); font-size: 0.875rem; }
- .avail-list li::before { content: ''; color: var(--accent); font-weight: 700; }
- .about-meta { display: flex; flex-direction: column; gap: 1.5rem; }
- .meta-card { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 1rem; }
- .meta-icon { font-size: 1.5rem; }
- .meta-label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
- .meta-value { font-weight: 600; color: var(--text); font-size: 0.95rem; margin-top: 0.1rem; }
+/* ── STATS ── */
+.stats-bar { background: var(--accent); padding: 2rem 2.5rem; }
+.stats-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(5, 1fr); gap: 2rem; text-align: center; }
+.stat-num { font-size: 2rem; font-weight: 800; color: #fff; }
+.stat-label { font-size: 0.78rem; color: rgba(255,255,255,0.85); margin-top: 0.25rem; }
 
- /* SKILLS */
- #skills { background: var(--bg); }
- .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
- .skill-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 1.75rem; transition: border-color 0.2s, transform 0.2s; }
- .skill-card:hover { border-color: var(--accent); transform: translateY(-4px); }
- .skill-card-title { font-weight: 700; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 1rem; }
- .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
- .skill-tag { background: #f5f0e8; border: 1px solid #e0d8c8; color: #5a4a35; padding: 0.3rem 0.75rem; border-radius: 4px; font-size: 0.8rem; }
+/* ── SHARED SECTION STYLES ── */
+section { padding: 6rem 2.5rem; }
+.section-inner { max-width: 1200px; margin: 0 auto; }
+.section-label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; display: block; }
+.section-title { font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 800; line-height: 1.15; letter-spacing: -0.02em; color: var(--text); margin-bottom: 1.5rem; }
+.section-title .accent { color: var(--accent); }
 
- /* EXPERIENCE */
- #experience { background: var(--bg2); }
- .exp-list { display: flex; flex-direction: column; gap: 0; margin-top: 3rem; }
- .exp-item { display: grid; grid-template-columns: 180px 1fr; gap: 2.5rem; padding: 2.5rem 0; border-bottom: 1px solid var(--border); }
- .exp-item:first-child { border-top: 1px solid var(--border); }
- .exp-date { color: var(--muted); font-size: 0.85rem; padding-top: 0.25rem; }
- .exp-badge { display: inline-block; background: rgba(232,98,42,0.08); border: 1px solid rgba(232,98,42,0.3); color: var(--accent); padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.72rem; font-weight: 600; margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
- .exp-role { font-weight: 700; font-size: 1.1rem; color: var(--text); margin-bottom: 0.25rem; }
- .exp-company { color: var(--muted); font-size: 0.875rem; margin-bottom: 1rem; }
- .exp-points { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
- .exp-points li { color: var(--muted); font-size: 0.875rem; line-height: 1.6; padding-left: 1.2rem; position: relative; }
- .exp-points li::before { content: '—'; position: absolute; left: 0; color: var(--accent); }
- .exp-techs { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
- .exp-tech { background: #f5f0e8; border: 1px solid #e0d8c8; color: #5a4a35; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.75rem; }
+/* ── ABOUT ── */
+#about { background: var(--bg2); }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+.about-text p { color: var(--muted); margin-bottom: 1rem; line-height: 1.8; }
+.about-text p strong { color: var(--text); }
+.availability-card { background: var(--card-bg); border: 1px solid var(--border2); border-radius: 12px; padding: 1.75rem; margin-top: 2rem; }
+.availability-card h4 { font-weight: 700; color: var(--text); margin-bottom: 1rem; font-size: 1rem; }
+.avail-list { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+.avail-list li { display: flex; align-items: center; gap: 0.6rem; color: var(--muted); font-size: 0.875rem; }
+.avail-list li::before { content: '✓'; color: var(--accent); font-weight: 700; }
+.about-meta { display: flex; flex-direction: column; gap: 1.5rem; }
+.meta-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 1rem; }
+.meta-icon { font-size: 1.5rem; }
+.meta-label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+.meta-value { font-weight: 600; color: var(--text); font-size: 0.95rem; margin-top: 0.1rem; }
 
- /* PROJECTS */
- #projects { background: var(--bg); }
- .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
- .project-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; display: flex; flex-direction: column; gap: 1rem; transition: border-color 0.2s, transform 0.2s; }
- .project-card:hover { border-color: var(--accent); transform: translateY(-4px); }
- .project-status { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; width: fit-content; }
- .project-status.live { color: #2e9e5b; }
- .project-status.live::before { content: ''; width: 6px; height: 6px; background: #2e9e5b; border-radius: 50%; }
- .project-status.progress { color: var(--accent); }
- .project-status.progress::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; }
- .project-name { font-weight: 700; font-size: 1.05rem; color: var(--text); line-height: 1.3; }
- .project-desc { color: var(--muted); font-size: 0.875rem; line-height: 1.7; flex: 1; }
- .project-techs { display: flex; flex-wrap: wrap; gap: 0.4rem; }
- .project-tech { background: #f5f0e8; border: 1px solid #e0d8c8; color: #5a4a35; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.75rem; }
- .project-links { display: flex; gap: 0.75rem; }
- .project-link { color: var(--accent); text-decoration: none; font-size: 0.82rem; font-weight: 600; display: flex; align-items: center; gap: 0.3rem; border: 1px solid rgba(232,98,42,0.3); padding: 0.35rem 0.8rem; border-radius: 4px; transition: background 0.2s; }
- .project-link:hover { background: rgba(232,98,42,0.08); }
+/* ── SKILLS ── */
+#skills { background: var(--bg); }
+.skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+.skill-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 1.75rem; transition: border-color 0.2s, transform 0.2s; }
+.skill-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+.skill-card-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
+.skill-card-icon { font-size: 1.4rem; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; flex-shrink: 0; }
+.skill-card-title { font-weight: 700; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); }
+.skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+.skill-tag { background: var(--tag-bg); border: 1px solid var(--tag-border); color: var(--tag-color); padding: 0.3rem 0.75rem; border-radius: 4px; font-size: 0.8rem; }
+.skill-bar-wrap { margin-top: 0.75rem; }
+.skill-bar-label { display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--muted); margin-bottom: 0.3rem; }
+.skill-bar-track { height: 5px; background: var(--skill-bar-bg); border-radius: 99px; overflow: hidden; }
+.skill-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 99px; width: 0; transition: width 1s cubic-bezier(0.4,0,0.2,1); }
 
- /* CONTRIBUTE */
- #contribute { background: var(--bg2); }
- .contribute-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
- .contribute-card { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 1.75rem; transition: border-color 0.2s; }
- .contribute-card:hover { border-color: var(--accent); }
- .contribute-num { font-size: 2rem; font-weight: 800; color: rgba(232,98,42,0.15); margin-bottom: 0.75rem; }
- .contribute-title { font-weight: 700; font-size: 1rem; color: var(--text); margin-bottom: 0.75rem; }
- .contribute-desc { color: var(--muted); font-size: 0.875rem; line-height: 1.7; }
+/* ── EXPERIENCE ── */
+#experience { background: var(--bg2); }
+.exp-list { display: flex; flex-direction: column; gap: 0; margin-top: 3rem; }
+.exp-item { display: grid; grid-template-columns: 180px 1fr; gap: 2.5rem; padding: 2.5rem 0; border-bottom: 1px solid var(--border); }
+.exp-item:first-child { border-top: 1px solid var(--border); }
+.exp-date { color: var(--muted); font-size: 0.85rem; padding-top: 0.25rem; }
+.exp-badge { display: inline-block; background: rgba(232,98,42,0.10); border: 1px solid rgba(232,98,42,0.35); color: var(--accent); padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.72rem; font-weight: 600; margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+.exp-role { font-weight: 700; font-size: 1.1rem; color: var(--text); margin-bottom: 0.25rem; }
+.exp-company { color: var(--muted); font-size: 0.875rem; margin-bottom: 1rem; }
+.exp-points { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+.exp-points li { color: var(--muted); font-size: 0.875rem; line-height: 1.6; padding-left: 1.2rem; position: relative; }
+.exp-points li::before { content: '—'; position: absolute; left: 0; color: var(--accent); }
+.exp-techs { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
+.exp-tech { background: var(--tag-bg); border: 1px solid var(--tag-border); color: var(--tag-color); padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.75rem; }
 
- /* SHE BUILDS TECH */
- #shebuildstech { background: var(--bg); }
- .sbt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
- .sbt-text p { color: var(--muted); line-height: 1.8; margin-bottom: 1rem; }
- .sbt-text p strong { color: var(--text); }
- .sbt-quote { border-left: 3px solid var(--accent); padding-left: 1.5rem; margin: 2rem 0; font-style: italic; color: var(--muted); line-height: 1.8; }
- .sbt-pillars { display: flex; flex-direction: column; gap: 1.25rem; }
- .sbt-pillar { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem 1.5rem; border-left: 3px solid var(--accent); }
- .sbt-pillar h4 { font-weight: 700; color: var(--text); margin-bottom: 0.4rem; font-size: 0.95rem; }
- .sbt-pillar p { color: var(--muted); font-size: 0.875rem; line-height: 1.6; margin: 0; }
- .sbt-founder-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 1.75rem; margin-top: 2rem; }
- .sbt-founder-card h4 { font-weight: 700; color: var(--text); margin-bottom: 0.5rem; }
- .sbt-founder-card p { color: var(--muted); font-size: 0.875rem; line-height: 1.7; margin: 0; }
+/* ── PROJECTS ── */
+#projects { background: var(--bg); }
+.projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+.project-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; display: flex; flex-direction: column; gap: 1rem; transition: border-color 0.2s, transform 0.2s; position: relative; overflow: hidden; }
+.project-card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--accent), var(--accent2)); opacity: 0; transition: opacity 0.3s; }
+.project-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+.project-card:hover::after { opacity: 1; }
+.project-status { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; width: fit-content; }
+.project-status.live { color: #3ecf6e; }
+.project-status.live::before { content: ''; width: 6px; height: 6px; background: #3ecf6e; border-radius: 50%; }
+.project-status.progress { color: var(--accent); }
+.project-status.progress::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
+.project-name { font-weight: 700; font-size: 1.05rem; color: var(--text); line-height: 1.3; }
+.project-desc { color: var(--muted); font-size: 0.875rem; line-height: 1.7; flex: 1; }
+.project-learned { background: var(--card-bg); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; padding: 0.9rem 1rem; }
+.project-learned-label { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 0.3rem; }
+.project-learned p { font-size: 0.82rem; color: var(--muted); line-height: 1.7; margin: 0; }
+.project-techs { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.project-tech { background: var(--tag-bg); border: 1px solid var(--tag-border); color: var(--tag-color); padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.75rem; }
+.project-links { display: flex; gap: 0.75rem; }
+.project-link { color: var(--accent); text-decoration: none; font-size: 0.82rem; font-weight: 600; display: flex; align-items: center; gap: 0.3rem; border: 1px solid rgba(232,98,42,0.35); padding: 0.35rem 0.8rem; border-radius: 4px; transition: background 0.2s; }
+.project-link:hover { background: rgba(232,98,42,0.10); }
 
- /* CONTACT */
- #contact { background: var(--bg2); }
- .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; }
- .contact-links { display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem; }
- .contact-link { display: flex; align-items: center; gap: 1rem; background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem 1.5rem; text-decoration: none; color: var(--text); transition: border-color 0.2s, transform 0.2s; }
- .contact-link:hover { border-color: var(--accent); transform: translateX(4px); }
- .contact-link-icon { font-size: 1.25rem; width: 36px; text-align: center; }
- .contact-link-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; }
- .contact-link-value { font-weight: 500; color: var(--text); font-size: 0.9rem; margin-top: 0.1rem; }
- .contact-right h3 { font-weight: 700; font-size: 1.4rem; color: var(--text); margin-bottom: 1rem; line-height: 1.3; }
- .contact-right p { color: var(--muted); margin-bottom: 1.5rem; font-size: 0.9rem; line-height: 1.7; }
- .open-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 2rem; }
- .open-list li { display: flex; align-items: center; gap: 0.6rem; color: var(--muted); font-size: 0.875rem; }
- .open-list li::before { content: ''; color: var(--accent); font-weight: 700; }
- .contact-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+/* ── LEARNING JOURNEY ── */
+#journey { background: var(--bg2); }
+.journey-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+.journey-text { display: flex; flex-direction: column; gap: 1.5rem; }
+.journey-block { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.75rem; }
+.journey-block h3 { font-weight: 700; font-size: 1rem; color: var(--accent); margin-bottom: 0.6rem; }
+.journey-block p { color: var(--muted); font-size: 0.875rem; line-height: 1.85; margin: 0; }
+.journey-block p strong { color: var(--text); }
+.journey-timeline { display: flex; flex-direction: column; }
+.tl-item { display: grid; grid-template-columns: 90px 1fr; gap: 1.5rem; padding-bottom: 2rem; position: relative; }
+.tl-item:not(:last-child)::before { content: ''; position: absolute; left: 89px; top: 28px; bottom: 0; width: 1px; background: var(--border2); }
+.tl-date { font-size: 0.7rem; color: var(--muted); padding-top: 0.3rem; text-align: right; line-height: 1.4; }
+.tl-content { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 14px 18px; position: relative; }
+.tl-content::before { content: ''; position: absolute; left: -5px; top: 10px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); border: 2px solid var(--bg2); }
+.tl-content h4 { font-weight: 700; font-size: 0.9rem; color: var(--text); margin-bottom: 3px; }
+.tl-content p { font-size: 0.78rem; color: var(--muted); margin: 0; }
 
- /* FOOTER */
- footer { background: var(--text); padding: 2.5rem; text-align: center; }
- .footer-inner { max-width: 1200px; margin: 0 auto; }
- .footer-name { font-weight: 800; font-size: 1rem; color: var(--white); margin-bottom: 0.25rem; }
- .footer-sub { color: #aaa; font-size: 0.8rem; margin-bottom: 1.25rem; }
- .footer-links { display: flex; justify-content: center; gap: 1.5rem; }
- .footer-links a { color: #aaa; text-decoration: none; font-size: 0.8rem; transition: color 0.2s; }
- .footer-links a:hover { color: var(--accent); }
- .footer-copy { color: #666; font-size: 0.75rem; margin-top: 1.25rem; }
+/* ── CONTRIBUTE ── */
+#contribute { background: var(--bg); }
+.contribute-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+.contribute-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.75rem; transition: border-color 0.2s; }
+.contribute-card:hover { border-color: var(--accent); }
+.contribute-num { font-size: 2rem; font-weight: 800; color: rgba(232,98,42,0.2); margin-bottom: 0.75rem; }
+.contribute-title { font-weight: 700; font-size: 1rem; color: var(--text); margin-bottom: 0.75rem; }
+.contribute-desc { color: var(--muted); font-size: 0.875rem; line-height: 1.7; }
 
- /* RESPONSIVE */
- @media (max-width: 900px) {
- #home { grid-template-columns: 1fr; padding-top: 7rem; text-align: center; }
- .hero-right { display: none; }
- .hero-tags, .hero-buttons, .hero-socials { justify-content: center; }
- .about-grid, .sbt-grid, .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
- .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
- .stats-inner { grid-template-columns: repeat(3, 1fr); }
- nav { padding: 1rem 1.5rem; }
- .nav-links { display: none; }
- section { padding: 4rem 1.5rem; }
- }
+/* ── SHE BUILDS TECH ── */
+#shebuildstech { background: var(--bg2); }
+.sbt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+.sbt-text p { color: var(--muted); line-height: 1.8; margin-bottom: 1rem; }
+.sbt-text p strong { color: var(--text); }
+.sbt-quote { border-left: 3px solid var(--accent); padding-left: 1.5rem; margin: 2rem 0; font-style: italic; color: var(--muted); line-height: 1.8; }
+.sbt-pillars { display: flex; flex-direction: column; gap: 1.25rem; }
+.sbt-pillar { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem 1.5rem; border-left: 3px solid var(--accent); }
+.sbt-pillar h4 { font-weight: 700; color: var(--text); margin-bottom: 0.4rem; font-size: 0.95rem; }
+.sbt-pillar p { color: var(--muted); font-size: 0.875rem; line-height: 1.6; margin: 0; }
+.sbt-founder-card { background: var(--bg3); border: 1px solid var(--border); border-radius: 12px; padding: 1.75rem; margin-top: 2rem; }
+.sbt-founder-card h4 { font-weight: 700; color: var(--text); margin-bottom: 0.5rem; }
+.sbt-founder-card p { color: var(--muted); font-size: 0.875rem; line-height: 1.7; margin: 0; }
 
- /* PRINT */
- @media print {
- nav, .hero-buttons, .hero-socials, .contact-btns { display: none !important; }
- body { background: white; color: black; }
- section { padding: 2rem 1rem; }
- .fade-up { opacity: 1 !important; transform: none !important; }
- }
+/* ── CONTACT ── */
+#contact { background: var(--bg); }
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; }
+.contact-links { display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem; }
+.contact-link { display: flex; align-items: center; gap: 1rem; background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem 1.5rem; text-decoration: none; color: var(--text); transition: border-color 0.2s, transform 0.2s; }
+.contact-link:hover { border-color: var(--accent); transform: translateX(4px); }
+.contact-link-icon { font-size: 1.25rem; width: 36px; text-align: center; }
+.contact-link-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; }
+.contact-link-value { font-weight: 500; color: var(--text); font-size: 0.9rem; margin-top: 0.1rem; }
+.contact-right h3 { font-weight: 700; font-size: 1.4rem; color: var(--text); margin-bottom: 1rem; line-height: 1.3; }
+.contact-right p { color: var(--muted); margin-bottom: 1.5rem; font-size: 0.9rem; line-height: 1.7; }
+.open-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 2rem; }
+.open-list li { display: flex; align-items: center; gap: 0.6rem; color: var(--muted); font-size: 0.875rem; }
+.open-list li::before { content: '✓'; color: var(--accent); font-weight: 700; }
+.contact-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
 
- .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
- .fade-up.visible { opacity: 1; transform: translateY(0); }
- </style>
+/* ── FOOTER ── */
+footer { background: #0a0c12; padding: 2.5rem; text-align: center; border-top: 1px solid var(--border); }
+.footer-inner { max-width: 1200px; margin: 0 auto; }
+.footer-name { font-weight: 800; font-size: 1rem; color: #fff; margin-bottom: 0.25rem; }
+.footer-sub { color: #6b7a8d; font-size: 0.8rem; margin-bottom: 1.25rem; }
+.footer-links { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; }
+.footer-links a { color: #6b7a8d; text-decoration: none; font-size: 0.8rem; transition: color 0.2s; }
+.footer-links a:hover { color: var(--accent); }
+.footer-copy { color: #3d4a5c; font-size: 0.75rem; margin-top: 1.25rem; }
+
+/* ── SCROLL REVEAL ── */
+.fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  #home { grid-template-columns: 1fr; padding-top: 7rem; text-align: center; }
+  .hero-right { display: none; }
+  .hero-tags, .hero-buttons, .hero-socials { justify-content: center; }
+  .about-grid, .sbt-grid, .contact-grid, .journey-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
+  .stats-inner { grid-template-columns: repeat(3, 1fr); }
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  section { padding: 4rem 1.5rem; }
+}
+@media (max-width: 480px) {
+  .stats-inner { grid-template-columns: repeat(2, 1fr); }
+  .theme-btn { display: none; }
+}
+@media print {
+  nav, .hero-buttons, .hero-socials, .contact-btns, .theme-btn, .hamburger { display: none !important; }
+  body { background: white; color: black; }
+  section { padding: 2rem 1rem; }
+  .fade-up { opacity: 1 !important; transform: none !important; }
+}
+</style>
 </head>
 <body>
 
- <nav>
- <a class="nav-brand" href="#home">Loweh<span>.</span></a>
- <ul class="nav-links">
- <li><a href="#about">About</a></li>
- <li><a href="#skills">Skills</a></li>
- <li><a href="#experience">Experience</a></li>
- <li><a href="#projects">Projects</a></li>
- <li><a href="#shebuildstech">She Builds Tech</a></li>
- <li><a href="#contact">Contact</a></li>
- </ul>
- <button class="nav-cta" onclick="window.print()"> Download</button>
- </nav>
+<!-- NAV -->
+<nav>
+  <a class="nav-brand" href="#home">Loweh<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#journey">Journey</a></li>
+    <li><a href="#shebuildstech">She Builds Tech</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="theme-btn" id="themeBtn">🌙 Dark</button>
+    <button class="nav-cta" id="cvBtnNav">⬇ Download CV</button>
+  </div>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
 
- <!-- HERO -->
- <section id="home">
- <div class="hero-left fade-up">
- <div class="hero-badge">Junior DevOps Engineer</div>
- <h1 class="hero-title">Hello, I'm<br><span class="accent">Loweh Goodness.</span></h1>
- <p class="hero-sub">Building real infrastructure, automating deployments, and getting better at it every single day.</p>
- <div class="hero-tags">
- <span class="hero-tag">NextGen Playground</span>
- <span class="hero-tag">Remote-ready</span>
- <span class="hero-tag">Cameroon </span>
- </div>
- <div class="hero-buttons">
- <a class="btn-primary" href="data:application/pdf;base64,JVBERi0xLjQKJZOMi54gUmVwb3J0TGFiIEdlbmVyYXRlZCBQREYgZG9jdW1lbnQgKG9wZW5zb3VyY2UpCjEgMCBvYmoKPDwKL0YxIDIgMCBSIC9GMiAzIDAgUgo+PgplbmRvYmoKMiAwIG9iago8PAovQmFzZUZvbnQgL0hlbHZldGljYSAvRW5jb2RpbmcgL1dpbkFuc2lFbmNvZGluZyAvTmFtZSAvRjEgL1N1YnR5cGUgL1R5cGUxIC9UeXBlIC9Gb250Cj4+CmVuZG9iagozIDAgb2JqCjw8Ci9CYXNlRm9udCAvSGVsdmV0aWNhLUJvbGQgL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcgL05hbWUgL0YyIC9TdWJ0eXBlIC9UeXBlMSAvVHlwZSAvRm9udAo+PgplbmRvYmoKNCAwIG9iago8PAovQ29udGVudHMgOSAwIFIgL01lZGlhQm94IFsgMCAwIDU5NS4yNzU2IDg0MS44ODk4IF0gL1BhcmVudCA4IDAgUiAvUmVzb3VyY2VzIDw8Ci9Gb250IDEgMCBSIC9Qcm9jU2V0IFsgL1BERiAvVGV4dCAvSW1hZ2VCIC9JbWFnZUMgL0ltYWdlSSBdCj4+IC9Sb3RhdGUgMCAvVHJhbnMgPDwKCj4+IAogIC9UeXBlIC9QYWdlCj4+CmVuZG9iago1IDAgb2JqCjw8Ci9Db250ZW50cyAxMCAwIFIgL01lZGlhQm94IFsgMCAwIDU5NS4yNzU2IDg0MS44ODk4IF0gL1BhcmVudCA4IDAgUiAvUmVzb3VyY2VzIDw8Ci9Gb250IDEgMCBSIC9Qcm9jU2V0IFsgL1BERiAvVGV4dCAvSW1hZ2VCIC9JbWFnZUMgL0ltYWdlSSBdCj4+IC9Sb3RhdGUgMCAvVHJhbnMgPDwKCj4+IAogIC9UeXBlIC9QYWdlCj4+CmVuZG9iago2IDAgb2JqCjw8Ci9QYWdlTW9kZSAvVXNlTm9uZSAvUGFnZXMgOCAwIFIgL1R5cGUgL0NhdGFsb2cKPj4KZW5kb2JqCjcgMCBvYmoKPDwKL0F1dGhvciAoXChhbm9ueW1vdXNcKSkgL0NyZWF0aW9uRGF0ZSAoRDoyMDI2MDUyNjIyMTAzNCswMCcwMCcpIC9DcmVhdG9yIChcKHVuc3BlY2lmaWVkXCkpIC9LZXl3b3JkcyAoKSAvTW9kRGF0ZSAoRDoyMDI2MDUyNjIyMTAzNCswMCcwMCcpIC9Qcm9kdWNlciAoUmVwb3J0TGFiIFBERiBMaWJyYXJ5IC0gXChvcGVuc291cmNlXCkpIAogIC9TdWJqZWN0IChcKHVuc3BlY2lmaWVkXCkpIC9UaXRsZSAoXChhbm9ueW1vdXNcKSkgL1RyYXBwZWQgL0ZhbHNlCj4+CmVuZG9iago4IDAgb2JqCjw8Ci9Db3VudCAyIC9LaWRzIFsgNCAwIFIgNSAwIFIgXSAvVHlwZSAvUGFnZXMKPj4KZW5kb2JqCjkgMCBvYmoKPDwKL0ZpbHRlciBbIC9BU0NJSTg1RGVjb2RlIC9GbGF0ZURlY29kZSBdIC9MZW5ndGggMjYzMAo+PgpzdHJlYW0KR2F1MEU/W3BlPiZxLyooUiZCbW9HQ3NFJDVQb1AkNklWYEVhcCowPSs4VEgqISZfNEhRMCJoO3AzLmNsSzFRSkhAJTRPUThHNCNETlFyTmMiQUpfOnFWTlwlcGI3OWpOcyg3QlA7czJwRSshXG9fb14iYi1ZMWNWa282NVlnIzJcJ0BKX0NmZ1RdM04tTCNqW1tRaGFqLFpWPFYyVyFYOGxHZkYsJi89OFZTPScvQGZWXSdsbEVKaXRUVSNuNV5QbWlaSj84L14yMSEzL2kkMGVXMWlnYzxPI1hpNzpOUW5FU0JrKiVrSitwcS1WWE05Ol07O18pR2BrLmpaKipLNTs0KjNtKGZrNElNMHVzOiUoTTVYLFBZYEkhU19lTiFtLmtPJ2Y0NUw/WDtkUF9yYWRtPkFYWWIyO1NPLGNEbWozZnBIR0k0LzJbQSpGJj8kdEVdMD5fS1glNzNpNyxjUUZiYTpJOyY3Qi9HUEJGJGBmbmo3aGRIKDAnUlIuPVAucVRgY1xtSj5gJSVNSigjODRmMG5AVCspV2ojby91Lm5BRFBaaSMsNlRFZj9IKzhiIlJyNks0QFlVVWVjNTlcXTFLY2g3SilnTnMuajFybFVmb2tZa1c+Uk9hYDFIOFtBanRdc25saShPWktJZiMqU2xFT1FOVUgxMW5GdTxITGhSZ0I9XyU5VlpAMjNEJFR1SDVgdClubmMkbyUmaE84UGlAPCtKX1w5OCQpQidCRTpgKSlcZ1poLk1PZT5sLjNsbCc/bltXWz0hRSZeMFtsJUVEPitIc3VYV3BxdC9aRjxzIUBCWFpENCQqNkVyIjdwLFZTPUhTQD9FQk0yTmspblc+dU9xPSciIm0wRVkyclcpaFw3R2JfcV5ycUAwNmYvSENIcCtSSCFbNG9BUF82cnVZRSZPUWtqVCVwLjhvPTVUZz9GQ0FpVnVCYnFzMzRzP2pPTmBqU24wOG1lWkBPPEBRSylDdEFyLSJONTk8I3M2dE1jTGgoIy9pK2giUidPWjdYTURpNihyaVpZTHFhTzA4K2dWczRwIm07UkQvTjkvYzhsaElpW0VnMldOZ2dvUF4oRDNPTVEoS2NaMFVidSoqZWEpXyZmMUtNUThAXiFmajFyYWkzSiZzNEIiL0BpJz8zamtGOz5GWEc1Mj5JdWNpSzBxbU42Y0VxVHNeJ2habTBaLGc7MCtJXWM5YFNcYTdcSHVLQjBiOiY1amMtKF09KDo6MGFRUVFIOS8/JFd1V2JTSDdLazU4KmJATUNJJzBHLkhhQzRpc0ZdYTtKX1xhYyoyczRYOUhTYk4+MG5sMnErNXJBUSVvZig4J3BHOEkuOW85KG5UN2RIQStpRzppRTEzNF5kP2lYWU4kXTJtcnBCci5kTSs/NlpEUkQlKV5EJC4kUyJmI28rWiZKS3Uvb2tALiVQOGdTP0s+XGVTbUkyS1VPUHUpIjFPbGdKO1tPJmh1UzkiVWoiMl1VTj5gY11tOz9gKzFFayJNZjEkMWREanBhdDVMKSo9S2ktakdOUDVcbTcjPFxRYCJXRmNkLFhqN2U6WEI4PzArOCgkM2s4TE1CbllgT15sPCYtI1VaMiYkQztYbTdNbEdsajxPNzpAJSU+J1pCNURJbTtiVU89WkZJNSNaSDwkUThtVzMwWTZeSTZlLXEhQzgmRGlsTnRoZzFaNEc+ZVRgOjA5JnRAYTwyVWhmOmdgWiZHbE5AdE8oQyczVW48XCkrW2IibGctTWlBUDIuOG08cGgxPm9nbDxfYVBpRz4sI3JEWFg3V2o2ZlJfJyw6bmksRWNuLm5LP11bTThcQE5mUSxxTlc7OEk6WkpTSDViLicsTS9kZixSRlNXNCIqX11OVVJcJ3BxRk9LUEByaDhbaDlzYyw3bVg0XT8+PFkuaFsjQFFdOkpJMFM6Pj9kQFRFVUh0ayY4ailZYy1GX11Rb2wnbjU4YEZeQzVyS19CKkByLWJgNidFL1hzci8tJ1VnajJVKlpvSS9tSTUtX2lBRk8jNFQ0LyRcXjkpYT43ISRXUVcySU9wKkZlLS1aI3JRUTktV14pc042R0JcdCIqVmF0QjFrIUkicCgxODdyODBfRTldLWZuKE8naW9bMChURUQjIT5WXF9IQ19MM1QzNjJ0MzVZaGEzaCM+SFpHcTpYQVk4VmBMOU8wT1Q7Y1VGdERKMW8jNFdybkVbSjxPKTIkYGxjRF8uT1dpakI6b0k/OCFKbCk+LyI7Q21QX09qQEZLIms7XCFYWWNkM1dsRWwwTlxMRiFEYT1DdUtvPEMuTDElJmVJKU5bIy5aN0RgcCQqZysmRElBIShgY2lNJEc9bz08OktXXyZuUjVTLUNbcTVyTEJ0UG8layo4SVxdcXJCajFlMzclJzpFOGQoLkFSTjhLbCxIOnRrV0AsbyplWDZDYEpZM3RjYF5fJm8oJy9WQkUsWlJtV1wiYkUnMFVAJnVHZEZwPyM3NUkhRlxeTyEnXiFQLnRsKTxJYjwrVyZrJVAqYUc7LlZPdUNROjdmZU1NYUNQJ2ZiRVlrR0hmPV1PXzNdO2JURWFaRmMhO2ZIVUxdLFEvREk9ITloYicsWzdlPzAyZ2dgdT5qRFIhLmJGPT5mQ21jYFFJZWdhOyFUYlAhSzxpYEQ5KG8iT1UsU0hVJF1VQ0BxRSRmZzFxRDEkIkZtTDtvOCMmW25wVig1LkFjRTdNTnI7X2FlayhrdE9BSm9TIWdEalUoRzIpQTE5OC0jT3NUYWw6VXUuS0BzM1B0NGBANS8uO2tUay41KXNOND4yZksuRTFzVEVRYkgpU2FnIWJBTk5FQi5vSmF1Lzg7cUlcRV1LOkJhMUdxKEplLj5aT0FAWTtQZj5tLzdOP09ROkEnWFozWCchb2gnaDVhQEpfWGRwdDNQVDklJSUnZiZdUFdTQG9gRy83KldMYmxeck5IVyFSVzk9K20qK0FxIVpwdS46X0JiSj1aTDIhZFNkcnBXLyY/X2A4PzAtVlxGIyhLaVBqb0ZVIUMuWj5zPCIwPVc6OCFiTE9ybVxFXi9iWGciLGpSY1RXYjYzPGVGbERoOXRZN1l1Mkl0KzFrWystOE5yXj9kYzRfZU9FUE0uXmovKjAtNkhiMCgxQ2peIzlvTlYnN3JALFttMmQ0XjJoLXNRVy9VMTonXDdEPzgwP1dgOC1SXj8vS3JRZis9S1RYLChpb0I4Myx0RFRxTEYiM2tsMG5tRSVwTnFTOmRbN2hgVk11LF5AP0lNZDtzWkNsRSwnTyM+bWszbkBRTCRpTEdzKDMuIktsb1UxJko1YyRURypRaS0mVDRsUVhfNVQ+ZFNoQ1psZEguMlhmcCYjIUAkR1wiREhDa1poJTdZT25TdE1dYHU4UUM+MDwlNE08cFdnPlluWFwrXWEjRiFpajw+bjVJRkBEMG1tb3JCSTJFVUElL0JpdDdKRmdDaV9nPy1nKVFMPzlcNlxrYGtmYlBobXEqLmtuK11Tfj5lbmRzdHJlYW0KZW5kb2JqCjEwIDAgb2JqCjw8Ci9GaWx0ZXIgWyAvQVNDSUk4NURlY29kZSAvRmxhdGVEZWNvZGUgXSAvTGVuZ3RoIDE0MTYKPj4Kc3RyZWFtCkdhdTBDZ04pIj0mOk86U29bQitNOTlxSEgrV2BAXSomY0dNLzMtcD1QbnRVYFRMPjRsRXNeZ29kdWxFKyVNc2lMKCkuQnBrV1lvQl1COyFPJFhdXys5RkhCTyhiWFxYKz8lMGE1WztjbEdSUVAkZnNgY0M/S3EsVmJCQTdQSDMjYWtTamktdXBfWylgRF9YPUAsQGs6Iy9KT0pwVEpDNUojMSFQUzZ1WHJoK15uPCoqKjxMRzRkLWFyRjopMmBDXilVLywnaT1GSjpeUj46KmhHSTIkWkRUWHNjaStpK0oxVkE0P3NMUGtjXUY/UWY/SzcvQEwmXT9wRGYtSkgyYSVrUFpiIktrLF04cG4qXHE3aE0/XWJnSVdub2RCLkwxcDR0OVIxVjxqKl0iSlBXPCshcSNyc2xnam0uKUBVRWZLL3MqLEpbUicuPFheXGpQZWklPzpEOC08L0BCUj1QUz8ocygpOmdhLUZZTCJeb0lGTSUoPnRdYWkuc2h1NShVMnBbb2YxPlc9QWUxY0ImRyxiayRjXFBUYl1wRGhoTEc/R0pFT1ApUWU2NmkmMS4/ViNuMy9CTT4qXzguI0VCJ1IoJDVfciI+OjpLUWRhRk8jKSo5KmVnZU8xcDowcjlldVlLRjQmczBVLW5oSV43TFlLUVI9RV9Ycic/PXIsOG1zYCNXV1U9aiUuUGIjbD90QVBsLlFbNVNZJWUhNltnZzpEImhvJU1VZ0NALlxdck5XZDxIWT1edVBaMlldMzZycUBYVkNeIjwpP20yO3NAJ108RjZbLWJaRjAwKUY9KjRVRkdbc1NFQ2ldJDQuZV5Lc1BlU0Q5PWpCJW8nYHVoR0AvJTIhVykhNSlsMDVwSmwiXDAzQ0ghTmg2ZnUiODgvLV5KL0xCYFxBR0MvL3VTbmhMPm5bZF91UkRMazVGa2pqb0MmRytvcC1pRSojPGVjNDsrNzteb2wjQiJFJDFhJ2haXmpEam1gK3NQRmQrLlZmYS1uO01CbFhvIXFCUmdjL0VHUmpgSHMkST49KFNrYyZoM1ZqLiQwVVlYVUg2QE8qaCNXcCpjOCo/QmIqPCgjPmpFKFpVIzYpU0YvajVARE5QXGEqPFZsSy5QJ14tVEM8V05vdHAzIilFJUAjUkplOlpvN21WTko6IjtePl5TXiZuaGRCLE45TUVURFBFUUk3WGFAIz5vbyJXI3MtX1ZMbys/ZEMzQD1RSWdXN0E9TTBUZUVSYmRJNyNkPUBBSHVAPitTbGdQWzpyclFZbCcwJiZkb2MnWHNuVUVoITdQJU9rTDEtbG1zPmhrbz1vb0o1R0RoTVRwKC5hclFGKm1RNltzQ083USI+aT49RmE2Si5QJDktUjRfYS1EMlwzRFNdZ3FNVWstZidbYWYqcllsPkRpWG1DbztuTmZUdHBAImJfSiInWSZMYjVtV0BUXl5JU0dJa05ybGJPS3JVNmV0V0VAQGpRNEpubj8+VDU+TjktTjNxSk9EcipMR2diJm5OT0g0TCQlIUtBUVUqVCtoPGZgPC4nYzA0KHQxbVdFcFJZa0lUSF50Vz1KNGU3SDp1MUA8cTdvNiEqVydwaShIT0Y/YlpfRCxFLXVvPWxeP1hUUClzSm81MkxCVD1tUmNMUnJmKGFsRDI6VERbNGldJ2w3Zjo0L1wyR2lFJThyKSsuY0MnMm0/KGssJVg4ak9VLzVaajFhO0MtZD9UIVxrXkYzcCgxK1E7ITlWLjFsJU9gN2JBcjxxJT1JQkZWZUlpPSNuIyssK0xJUC5kWFRtXlovUVJia0guQVFcSzE0M05EVTZvcFIldTByUSdfV1s/I1cqXVNzKixtLjpNXXNaOEFOaDleJUE/bC5dJlBjQCxnNEFqXWl+PmVuZHN0cmVhbQplbmRvYmoKeHJlZgowIDExCjAwMDAwMDAwMDAgNjU1MzUgZiAKMDAwMDAwMDA2MSAwMDAwMCBuIAowMDAwMDAwMTAyIDAwMDAwIG4gCjAwMDAwMDAyMDkgMDAwMDAgbiAKMDAwMDAwMDMyMSAwMDAwMCBuIAowMDAwMDAwNTI0IDAwMDAwIG4gCjAwMDAwMDA3MjggMDAwMDAgbiAKMDAwMDAwMDc5NiAwMDAwMCBuIAowMDAwMDAxMDc2IDAwMDAwIG4gCjAwMDAwMDExNDEgMDAwMDAgbiAKMDAwMDAwMzg2MiAwMDAwMCBuIAp0cmFpbGVyCjw8Ci9JRCAKWzwzMDVjN2EwMDgxYjAxODliN2ZhNzRmYmM3OTA1NmE4Nj48MzA1YzdhMDA4MWIwMTg5YjdmYTc0ZmJjNzkwNTZhODY+XQolIFJlcG9ydExhYiBnZW5lcmF0ZWQgUERGIGRvY3VtZW50IC0tIGRpZ2VzdCAob3BlbnNvdXJjZSkKCi9JbmZvIDcgMCBSCi9Sb290IDYgMCBSCi9TaXplIDExCj4+CnN0YXJ0eHJlZgo1MzcwCiUlRU9GCg==" download="Loweh-Goodness-CV.pdf"> Download CV</a>
- <a class="btn-outline" href="#contact">Get in Touch</a>
- </div>
- <div class="hero-socials">
- <a href="https://www.linkedin.com/in/loweh-goodness63/" target="_blank"> LinkedIn</a>
- <a href="https://github.com/goodnessloweh-git" target="_blank"> GitHub</a>
- <a href="mailto:goodnessloweh5@gmail.com"> Email</a>
- </div>
- </div>
- <div class="hero-right fade-up">
- <div class="hero-photo-wrap">
- <img src="data:image/jpeg;base64,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" alt="Loweh Goodness">
- <div class="hero-photo-badge">
- <strong>Loweh Goodness</strong>
- <span>Junior DevOps Engineer · Cameroon </span>
- </div>
- </div>
- </div>
- </section>
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobileNav">
+  <a href="#about" onclick="closeMobileNav()">About</a>
+  <a href="#skills" onclick="closeMobileNav()">Skills</a>
+  <a href="#experience" onclick="closeMobileNav()">Experience</a>
+  <a href="#projects" onclick="closeMobileNav()">Projects</a>
+  <a href="#journey" onclick="closeMobileNav()">Journey</a>
+  <a href="#shebuildstech" onclick="closeMobileNav()">She Builds Tech</a>
+  <a href="#contact" onclick="closeMobileNav()">Contact</a>
+</div>
 
- <!-- STATS -->
- <div class="stats-bar">
- <div class="stats-inner">
- <div><div class="stat-num">1+</div><div class="stat-label">Year Learning</div></div>
- <div><div class="stat-num">3</div><div class="stat-label">Projects Live</div></div>
- <div><div class="stat-num">AWS + Docker</div><div class="stat-label">Primary Stack</div></div>
- <div><div class="stat-num">10+</div><div class="stat-label">Tools Mastered</div></div>
- <div><div class="stat-num">Cohort 1</div><div class="stat-label">Micro Internship</div></div>
- </div>
- </div>
+<!-- HERO -->
+<section id="home">
+  <div class="hero-left fade-up">
+    <div class="hero-badge">Junior DevOps Engineer</div>
+    <h1 class="hero-title">Hello, I'm<br><span class="accent">Loweh Goodness.</span></h1>
+    <p class="hero-sub">Building real infrastructure, automating deployments, and getting better at it every single day.</p>
+    <div class="hero-tags">
+      <span class="hero-tag">NextGen Playground</span>
+      <span class="hero-tag">Remote-ready</span>
+      <span class="hero-tag">Cameroon 🇨🇲</span>
+    </div>
+    <div class="hero-buttons">
+      <button class="btn-primary" id="cvBtnHero">⬇ Download CV</button>
+      <a class="btn-outline" href="#contact">Get in Touch</a>
+    </div>
+    <div class="hero-socials">
+      <a href="https://www.linkedin.com/in/loweh-goodness63/" target="_blank">LinkedIn</a>
+      <a href="https://github.com/goodnessloweh-git" target="_blank">GitHub</a>
+      <a href="mailto:goodnessloweh5@gmail.com">Email</a>
+    </div>
+  </div>
+  <div class="hero-right fade-up">
+    <div class="hero-photo-wrap">
+      <img src="data:image/jpeg;base64,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" alt="Loweh Goodness">
+      <div class="hero-photo-badge">
+        <strong>Loweh Goodness</strong>
+        <span>Junior DevOps Engineer · Cameroon 🇨🇲</span>
+      </div>
+    </div>
+  </div>
+</section>
 
- <!-- ABOUT -->
- <section id="about">
- <div class="section-inner">
- <div class="about-grid">
- <div class="about-text fade-up">
- <p class="section-label">Who I Am</p>
- <h2 class="section-title">Junior DevOps Engineer<br>based in <span class="accent">Cameroon</span></h2>
- <p>My name is <strong>Loweh Goodness</strong> and I'm a junior DevOps engineer with a growing passion for cloud infrastructure, automation, and getting things to actually work in production not just on paper.</p>
- <p>I started my DevOps journey in <strong>2024</strong> and built my foundation at <strong>Primus Learning</strong> where I got hands-on with Linux, networking, AWS, Docker, Kubernetes, Terraform, Ansible, and monitoring tools like Prometheus and Grafana.</p>
- <p>Since joining <strong>NextGen Playground in 2025</strong>, I've moved from theory to practice deploying live infrastructure, building full CI/CD pipelines, and working on production-grade projects on AWS.</p>
- <div class="availability-card">
- <h4> Open to Opportunities</h4>
- <ul class="avail-list">
- <li>Full-time junior DevOps roles</li>
- <li>DevOps internship programmes</li>
- <li>Remote or Cameroon-based positions</li>
- <li>Project collaborations and open source</li>
- </ul>
- </div>
- </div>
- <div class="about-meta fade-up">
- <div class="meta-card"><div class="meta-icon"></div><div><div class="meta-label">Location</div><div class="meta-value">Cameroon · Available globally (remote)</div></div></div>
- <div class="meta-card"><div class="meta-icon"></div><div><div class="meta-label">Training</div><div class="meta-value">NextGen Playground · Primus Learning</div></div></div>
- <div class="meta-card"><div class="meta-icon"></div><div><div class="meta-label">Status</div><div class="meta-value">Open to Roles </div></div></div>
- <div class="meta-card"><div class="meta-icon"></div><div><div class="meta-label">Community</div><div class="meta-value">She Builds Tech Founder</div></div></div>
- <div class="meta-card"><div class="meta-icon"></div><div><div class="meta-label">Languages</div><div class="meta-value">English · French </div></div></div>
- </div>
- </div>
- </div>
- </section>
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div><div class="stat-num">1+</div><div class="stat-label">Year Learning</div></div>
+    <div><div class="stat-num">5+</div><div class="stat-label">Projects Live</div></div>
+    <div><div class="stat-num">AWS + K8s</div><div class="stat-label">Primary Stack</div></div>
+    <div><div class="stat-num">12+</div><div class="stat-label">Tools Mastered</div></div>
+    <div><div class="stat-num">Cohort 1</div><div class="stat-label">Micro Internship</div></div>
+  </div>
+</div>
 
- <!-- SKILLS -->
- <section id="skills">
- <div class="section-inner">
- <p class="section-label fade-up">Tools & Tech</p>
- <h2 class="section-title fade-up">DevOps <span class="accent">Tools & Stack</span></h2>
- <div class="skills-grid">
- <div class="skill-card fade-up"><div class="skill-card-title">Cloud & Infrastructure</div><div class="skill-tags"><span class="skill-tag">AWS EC2</span><span class="skill-tag">S3 Buckets</span><span class="skill-tag">VPC</span><span class="skill-tag">IAM</span></div></div>
- <div class="skill-card fade-up"><div class="skill-card-title">Containers & Orchestration</div><div class="skill-tags"><span class="skill-tag">Docker</span><span class="skill-tag">Kubernetes</span><span class="skill-tag">Docker Hub</span></div></div>
- <div class="skill-card fade-up"><div class="skill-card-title">CI/CD & Automation</div><div class="skill-tags"><span class="skill-tag">GitHub Actions</span><span class="skill-tag">Git</span><span class="skill-tag">Bash</span><span class="skill-tag">Webhooks</span></div></div>
- <div class="skill-card fade-up"><div class="skill-card-title">Infrastructure as Code</div><div class="skill-tags"><span class="skill-tag">Terraform</span><span class="skill-tag">Ansible</span><span class="skill-tag">IaC Principles</span></div></div>
- <div class="skill-card fade-up"><div class="skill-card-title">Monitoring & Observability</div><div class="skill-tags"><span class="skill-tag">Prometheus</span><span class="skill-tag">Grafana</span><span class="skill-tag">UptimeRobot</span><span class="skill-tag">Alerting</span></div></div>
- <div class="skill-card fade-up"><div class="skill-card-title">OS & Networking</div><div class="skill-tags"><span class="skill-tag">Linux</span><span class="skill-tag">Ubuntu</span><span class="skill-tag">DNS</span><span class="skill-tag">Networking</span></div></div>
- <div class="skill-card fade-up"><div class="skill-card-title">Version Control</div><div class="skill-tags"><span class="skill-tag">Git</span><span class="skill-tag">GitHub</span><span class="skill-tag">Branching</span><span class="skill-tag">Pull Requests</span></div></div>
- <div class="skill-card fade-up"><div class="skill-card-title">Security Basics</div><div class="skill-tags"><span class="skill-tag">HTTPS / SSL</span><span class="skill-tag">IAM Policies</span><span class="skill-tag">GitHub Secrets</span></div></div>
- </div>
- </div>
- </section>
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-text fade-up">
+        <span class="section-label">Who I Am</span>
+        <h2 class="section-title">Junior DevOps Engineer<br>based in <span class="accent">Cameroon</span></h2>
+        <p>My name is <strong>Loweh Goodness</strong> and I'm a junior DevOps engineer with a growing passion for cloud infrastructure, automation, and getting things to actually work in production — not just on paper.</p>
+        <p>I started my DevOps journey in <strong>2024</strong> and built my foundation at <strong>Primus Learning</strong> where I got hands-on with Linux, networking, AWS, Docker, Kubernetes, Terraform, Ansible, and monitoring tools like Prometheus and Grafana.</p>
+        <p>Since joining <strong>NextGen Playground in 2025</strong>, I've moved from theory to practice — deploying live infrastructure, building full CI/CD pipelines, and working on production-grade projects on AWS.</p>
+        <div class="availability-card">
+          <h4>✅ Open to Opportunities</h4>
+          <ul class="avail-list">
+            <li>Full-time junior DevOps roles</li>
+            <li>DevOps internship programmes</li>
+            <li>Remote or Cameroon-based positions</li>
+            <li>Project collaborations and open source</li>
+          </ul>
+        </div>
+      </div>
+      <div class="about-meta fade-up">
+        <div class="meta-card"><div><div class="meta-label">Location</div><div class="meta-value">Cameroon · Available globally (remote)</div></div></div>
+        <div class="meta-card"><div><div class="meta-label">Training</div><div class="meta-value">NextGen Playground · Primus Learning</div></div></div>
+        <div class="meta-card"><div><div class="meta-label">Status</div><div class="meta-value">Open to Roles</div></div></div>
+        <div class="meta-card"><div><div class="meta-label">Community</div><div class="meta-value">She Builds Tech — Founder</div></div></div>
+        <div class="meta-card"><div><div class="meta-label">Languages</div><div class="meta-value">English · French</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
 
- <!-- EXPERIENCE -->
- <section id="experience">
- <div class="section-inner">
- <p class="section-label fade-up">Experience & Training</p>
- <h2 class="section-title fade-up">Journey & <span class="accent">Experience</span></h2>
- <div class="exp-list">
- <div class="exp-item fade-up">
- <div class="exp-date">2025 · Present</div>
- <div>
- <div class="exp-badge">Current</div>
- <div class="exp-role">DevOps Engineer</div>
- <div class="exp-company">NextGen Playground · Remote</div>
- <ul class="exp-points">
- <li>Built fully automated CI/CD pipelines every push to main triggers GitHub Actions to build and push Docker images with zero manual steps</li>
- <li>Deployed the talent-forge-devops project with Docker, GitHub Actions, and live monitoring</li>
- <li>Deployed WordPress on AWS EKS using Terraform and Kubernetes with full CI/CD workflows</li>
- <li>Set up Ansible playbooks for Nginx deployment, working with roles, handlers, and Jinja2 templates</li>
- <li>Configured multi-region EC2 instances and Security Groups across AWS regions</li>
- <li>Practised Gitflow branching, PR-based merging, and daily version control workflows</li>
- </ul>
- <div class="exp-techs"><span class="exp-tech">Docker</span><span class="exp-tech">Kubernetes</span><span class="exp-tech">Terraform</span><span class="exp-tech">Ansible</span><span class="exp-tech">GitHub Actions</span><span class="exp-tech">AWS</span></div>
- </div>
- </div>
- <div class="exp-item fade-up">
- <div class="exp-date">2024 · 2025</div>
- <div>
- <div class="exp-role">DevOps Student</div>
- <div class="exp-company">Primus Learning · Cameroon</div>
- <ul class="exp-points">
- <li>Studied Linux system administration, networking fundamentals, and server management</li>
- <li>Learned AWS services (EC2, S3, IAM, VPC) with focus on real-world use cases</li>
- <li>Introduced to containerisation with Docker and orchestration with Kubernetes</li>
- <li>Practised infrastructure provisioning with Terraform and configuration management with Ansible</li>
- </ul>
- <div class="exp-techs"><span class="exp-tech">Linux</span><span class="exp-tech">AWS</span><span class="exp-tech">Docker</span><span class="exp-tech">Kubernetes</span><span class="exp-tech">Terraform</span></div>
- </div>
- </div>
- </div>
- </div>
- </section>
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-inner">
+    <span class="section-label fade-up">Tools & Tech</span>
+    <h2 class="section-title fade-up">DevOps <span class="accent">Skills & Stack</span></h2>
+    <div class="skills-grid">
 
- <!-- PROJECTS -->
- <section id="projects">
- <div class="section-inner">
- <p class="section-label fade-up">Portfolio</p>
- <h2 class="section-title fade-up">Highlighted <span class="accent">Projects</span></h2>
- <div class="projects-grid">
- <div class="project-card fade-up">
- <div class="project-status live">Live · Production</div>
- <div class="project-name">Talent Forge DevOps: Dockerised App with Full CI/CD Pipeline</div>
- <p class="project-desc">A containerised web application with a complete end-to-end DevOps workflow. Every code push triggers GitHub Actions to build and push a Docker image to Docker Hub, which auto-deploys with zero manual steps.</p>
- <div class="project-techs"><span class="project-tech">Docker</span><span class="project-tech">GitHub Actions</span><span class="project-tech">Docker Hub</span><span class="project-tech">CI/CD</span></div>
- <div class="project-links"><a class="project-link" href="https://github.com/goodnessloweh-git/talent-forge-devops" target="_blank"> GitHub</a></div>
- </div>
- <div class="project-card fade-up">
- <div class="project-status live">Live</div>
- <div class="project-name">Terraform EC2 & S3 with Modules and Remote Backend</div>
- <p class="project-desc">Provisioned AWS EC2 instances and S3 buckets using Terraform modules for reusable, clean infrastructure. Configured a remote backend for state management infrastructure as code done properly.</p>
- <div class="project-techs"><span class="project-tech">Terraform</span><span class="project-tech">AWS EC2</span><span class="project-tech">S3</span><span class="project-tech">Remote Backend</span><span class="project-tech">IaC</span></div>
- <div class="project-links"><a class="project-link" href="https://github.com/goodnessloweh-git/Terraform-project-EC2-and-S3-using-modules-with-remote-backend" target="_blank"> GitHub</a></div>
- </div>
- <div class="project-card fade-up">
- <div class="project-status live">Live</div>
- <div class="project-name">Portfolio Site via GitHub Pages & Custom Domain</div>
- <p class="project-desc">Built and deployed this personal portfolio with a custom domain. Configured DNS records, enforced HTTPS, and set up automatic deployment on every push to main.</p>
- <div class="project-techs"><span class="project-tech">GitHub Pages</span><span class="project-tech">DNS</span><span class="project-tech">HTTPS</span><span class="project-tech">Git</span></div>
- <div class="project-links">
- <a class="project-link" href="https://github.com/goodnessloweh-git/portfolio-site/tree/main/gasinforest.com/html/simone" target="_blank"> GitHub</a>
- <a class="project-link" href="https://lowehtech.com" target="_blank"> Live</a>
- </div>
- </div>
- </div>
- </div>
- </section>
+      <div class="skill-card fade-up">
+        <div class="skill-card-title">Cloud &amp; Infrastructure</div>
+        <div class="skill-tags"><span class="skill-tag">AWS EC2</span><span class="skill-tag">S3</span><span class="skill-tag">VPC</span><span class="skill-tag">IAM</span><span class="skill-tag">EKS</span></div>
+        <div class="skill-bar-wrap"><div class="skill-bar-label"><span>Proficiency</span><span>80%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="80"></div></div></div>
+      </div>
 
- <!-- CONTRIBUTE -->
- <section id="contribute">
- <div class="section-inner">
- <p class="section-label fade-up">My Value</p>
- <h2 class="section-title fade-up">What I <span class="accent">Contribute</span></h2>
- <div class="contribute-grid">
- <div class="contribute-card fade-up"><div class="contribute-num">01</div><div class="contribute-title">Containerising with Docker</div><p class="contribute-desc">I package applications into Docker containers, write Dockerfiles, manage images on Docker Hub, and make sure what runs on my machine runs exactly the same everywhere else.</p></div>
- <div class="contribute-card fade-up"><div class="contribute-num">02</div><div class="contribute-title">Building CI/CD Pipelines</div><p class="contribute-desc">I connect Git to deployment. A push to main triggers a GitHub Actions workflow that builds, tests, and ships the application automatically. No one has to touch a server.</p></div>
- <div class="contribute-card fade-up"><div class="contribute-num">03</div><div class="contribute-title">Deploying to Cloud Platforms</div><p class="contribute-desc">I deploy web applications to cloud platforms like AWS, configure environments correctly, and make sure things stay up after they go live.</p></div>
- <div class="contribute-card fade-up"><div class="contribute-num">04</div><div class="contribute-title">Writing Infrastructure as Code</div><p class="contribute-desc">I use Terraform to define and provision infrastructure so environments are consistent, repeatable, and version-controlled not configured by hand and forgotten.</p></div>
- <div class="contribute-card fade-up"><div class="contribute-num">05</div><div class="contribute-title">Setting Up Monitoring & Alerts</div><p class="contribute-desc">I set up UptimeRobot, Prometheus, and Grafana so the team knows about problems before users do. Downtime alerts, dashboards, and health checks built in.</p></div>
- <div class="contribute-card fade-up"><div class="contribute-num">06</div><div class="contribute-title">Documenting What I Build</div><p class="contribute-desc">Every project gets a proper README, architecture notes, and clear steps to reproduce it. Good documentation is part of the work, not an afterthought.</p></div>
- </div>
- </div>
- </section>
+      <div class="skill-card fade-up">
+        <div class="skill-card-title">Containers &amp; Orchestration</div>
+        <div class="skill-tags"><span class="skill-tag">Docker</span><span class="skill-tag">Kubernetes</span><span class="skill-tag">Docker Hub</span><span class="skill-tag">Minikube</span></div>
+        <div class="skill-bar-wrap"><div class="skill-bar-label"><span>Proficiency</span><span>78%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="78"></div></div></div>
+      </div>
 
- <!-- SHE BUILDS TECH -->
- <section id="shebuildstech">
- <div class="section-inner">
- <div class="sbt-grid">
- <div class="sbt-text fade-up">
- <p class="section-label">Community</p>
- <h2 class="section-title">She Builds <span class="accent">Tech</span></h2>
- <p>She Builds Tech is a community for women in tech and women transitioning into the industry. I started it because I wanted more women to know there is space for them in tech, and that they don't have to figure it out alone.</p>
- 
- <p>We share stories, build skills, and support each other. Because when one woman makes it, she opens the door for others.</p>
- <div class="sbt-quote">"I started this community because I wanted other women to know. You don't have to have everything figured out before you begin. You just have to begin."<br><strong>Loweh Goodness, Founder</strong></div>
- 
- <div class="sbt-founder-card">
- <h4> Loweh Goodness Founder</h4>
- <p>Junior DevOps Engineer · Cameroon · Building infrastructure by day, building community always. She Builds Tech was founded to make sure no woman has to figure out tech alone.</p>
- </div>
- </div>
- <div class="fade-up">
- <div class="sbt-pillars">
- <div class="sbt-pillar">
- <h4> Empowerment</h4>
- <p>Equipping women with the knowledge and confidence they need to break into tech, no matter where they are starting from.</p>
- </div>
- <div class="sbt-pillar">
- <h4> Storytelling</h4>
- <p>Sharing real stories of women in tech so others can see themselves in those journeys and know it is possible.</p>
- </div>
- <div class="sbt-pillar">
- <h4> Community</h4>
- <p>A space where women support each other, share resources, and grow together in their tech careers.</p>
- </div>
- <div class="sbt-pillar">
- <h4> Access</h4>
- 
- </div>
- <div class="sbt-pillar">
- <h4> Representation</h4>
- <p>Making sure more women are visible in DevOps and beyond, because seeing yourself in a space is the first step to believing you belong there.</p>
- </div>
- </div>
- </div>
- </div>
- </div>
- </section>
+      <div class="skill-card fade-up">
+        <div class="skill-card-title">CI/CD &amp; Automation</div>
+        <div class="skill-tags"><span class="skill-tag">GitHub Actions</span><span class="skill-tag">Jenkins</span><span class="skill-tag">Gitflow</span><span class="skill-tag">Bash</span><span class="skill-tag">Webhooks</span></div>
+        <div class="skill-bar-wrap"><div class="skill-bar-label"><span>Proficiency</span><span>82%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="82"></div></div></div>
+      </div>
 
- <!-- CONTACT -->
- <section id="contact">
- <div class="section-inner">
- <div class="contact-grid">
- <div class="fade-up">
- <p class="section-label">Get in Touch</p>
- <h2 class="section-title">Let's <span class="accent">Connect</span></h2>
- <div class="contact-links">
- <a class="contact-link" href="mailto:goodnessloweh5@gmail.com"><div class="contact-link-icon"></div><div><div class="contact-link-label">Email</div><div class="contact-link-value">goodnessloweh5@gmail.com</div></div></a>
- <a class="contact-link" href="https://wa.me/237682645478" target="_blank"><div class="contact-link-icon"></div><div><div class="contact-link-label">WhatsApp · Quick questions welcome</div><div class="contact-link-value">+237 682 645 478</div></div></a>
- <a class="contact-link" href="https://www.linkedin.com/in/loweh-goodness63/" target="_blank"><div class="contact-link-icon"></div><div><div class="contact-link-label">LinkedIn · Connect and DM me</div><div class="contact-link-value">Loweh Goodness</div></div></a>
- <a class="contact-link" href="https://github.com/goodnessloweh-git" target="_blank"><div class="contact-link-icon"></div><div><div class="contact-link-label">GitHub · All my projects</div><div class="contact-link-value">goodnessloweh-git</div></div></a>
- </div>
- </div>
- <div class="contact-right fade-up">
- <h3>Hiring, collaborating, or just want to say hi?</h3>
- <p>I'm actively looking for internship opportunities and junior DevOps roles where I can do real work and grow alongside people who know more than me. I show up prepared, ask good questions, and put in the hours to figure things out.</p>
- <ul class="open-list">
- <li>Open to internships and junior DevOps roles</li>
- <li>Remote or Cameroon-based positions</li>
- <li>Available for project collaborations</li>
- <li>Responds within 24 hours</li>
- </ul>
- <div class="contact-btns">
- <a class="btn-primary" href="mailto:goodnessloweh5@gmail.com">Send an Email</a>
- <a class="btn-outline" href="https://wa.me/237682645478" target="_blank">WhatsApp Me</a>
- </div>
- </div>
- </div>
- </div>
- </section>
+      <div class="skill-card fade-up">
+        <div class="skill-card-title">Infrastructure as Code</div>
+        <div class="skill-tags"><span class="skill-tag">Terraform</span><span class="skill-tag">Ansible</span><span class="skill-tag">Jinja2</span><span class="skill-tag">YAML</span></div>
+        <div class="skill-bar-wrap"><div class="skill-bar-label"><span>Proficiency</span><span>75%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="75"></div></div></div>
+      </div>
 
- <footer>
- <div class="footer-inner">
- <div class="footer-name">Loweh Goodness</div>
- <div class="footer-sub">Junior DevOps Engineer · Founder, She Builds Tech · Cameroon </div>
- <div class="footer-links">
- <a href="https://www.linkedin.com/in/loweh-goodness63/" target="_blank">LinkedIn</a>
- <a href="https://github.com/goodnessloweh-git" target="_blank">GitHub</a>
- <a href="mailto:goodnessloweh5@gmail.com">Email</a>
- <a href="https://wa.me/237682645478" target="_blank">WhatsApp</a>
- </div>
- <div class="footer-copy">© 2026 Loweh Goodness · Cameroon </div>
- </div>
- </footer>
+      <div class="skill-card fade-up">
+        <div class="skill-card-title">Monitoring &amp; Observability</div>
+        <div class="skill-tags"><span class="skill-tag">Prometheus</span><span class="skill-tag">Grafana</span><span class="skill-tag">UptimeRobot</span><span class="skill-tag">Alerting</span></div>
+        <div class="skill-bar-wrap"><div class="skill-bar-label"><span>Proficiency</span><span>68%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="68"></div></div></div>
+      </div>
 
- <script>
- const observer = new IntersectionObserver((entries) => {
- entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
- }, { threshold: 0.1 });
- document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
- const sections = document.querySelectorAll('section[id]');
- const navLinks = document.querySelectorAll('.nav-links a');
- window.addEventListener('scroll', () => {
- let current = '';
- sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.id; });
- navLinks.forEach(a => { a.style.color = a.getAttribute('href') === '#' + current ? 'var(--accent)' : ''; });
- });
- </script>
+      <div class="skill-card fade-up">
+        <div class="skill-card-title">OS &amp; Networking</div>
+        <div class="skill-tags"><span class="skill-tag">Linux</span><span class="skill-tag">Ubuntu</span><span class="skill-tag">DNS</span><span class="skill-tag">SSH</span><span class="skill-tag">Security Groups</span></div>
+        <div class="skill-bar-wrap"><div class="skill-bar-label"><span>Proficiency</span><span>85%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="85"></div></div></div>
+      </div>
+
+      <div class="skill-card fade-up">
+        <div class="skill-card-title">Version Control</div>
+        <div class="skill-tags"><span class="skill-tag">Git</span><span class="skill-tag">GitHub</span><span class="skill-tag">Branching</span><span class="skill-tag">Pull Requests</span><span class="skill-tag">PAT Auth</span></div>
+        <div class="skill-bar-wrap"><div class="skill-bar-label"><span>Proficiency</span><span>88%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="88"></div></div></div>
+      </div>
+
+      <div class="skill-card fade-up">
+        <div class="skill-card-title">Security Basics</div>
+        <div class="skill-tags"><span class="skill-tag">HTTPS / SSL</span><span class="skill-tag">IAM Policies</span><span class="skill-tag">GitHub Secrets</span><span class="skill-tag">Incident Response</span></div>
+        <div class="skill-bar-wrap"><div class="skill-bar-label"><span>Proficiency</span><span>72%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="72"></div></div></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-inner">
+    <span class="section-label fade-up">Experience & Training</span>
+    <h2 class="section-title fade-up">Journey & <span class="accent">Experience</span></h2>
+    <div class="exp-list">
+      <div class="exp-item fade-up">
+        <div class="exp-date">2025 · Present</div>
+        <div>
+          <div class="exp-badge">Current</div>
+          <div class="exp-role">DevOps Engineer</div>
+          <div class="exp-company">NextGen Playground · Remote</div>
+          <ul class="exp-points">
+            <li>Built fully automated CI/CD pipelines — every push to main triggers GitHub Actions to build and push Docker images with zero manual steps</li>
+            <li>Deployed WordPress on AWS EKS using Terraform and Kubernetes with full CI/CD workflows, HPA, and Ingress configuration</li>
+            <li>Set up Ansible playbooks for Nginx deployment across multiple EC2 nodes, working with roles, handlers, and Jinja2 templates</li>
+            <li>Configured multi-region EC2 instances and Security Groups across AWS regions</li>
+            <li>Responded to a real AWS credential exposure incident — submitted Trust & Safety case, remediated the breach, and hardened secrets hygiene</li>
+            <li>Practised Gitflow branching, PR-based merging, and daily version control workflows throughout all projects</li>
+          </ul>
+          <div class="exp-techs"><span class="exp-tech">Docker</span><span class="exp-tech">Kubernetes</span><span class="exp-tech">Terraform</span><span class="exp-tech">Ansible</span><span class="exp-tech">GitHub Actions</span><span class="exp-tech">AWS EKS</span></div>
+        </div>
+      </div>
+      <div class="exp-item fade-up">
+        <div class="exp-date">2024 · 2025</div>
+        <div>
+          <div class="exp-role">DevOps Student</div>
+          <div class="exp-company">Primus Learning · Cameroon</div>
+          <ul class="exp-points">
+            <li>Studied Linux system administration, networking fundamentals, and server management</li>
+            <li>Learned AWS services (EC2, S3, IAM, VPC) with focus on real-world use cases</li>
+            <li>Introduced to containerisation with Docker and orchestration with Kubernetes</li>
+            <li>Practised infrastructure provisioning with Terraform and configuration management with Ansible</li>
+          </ul>
+          <div class="exp-techs"><span class="exp-tech">Linux</span><span class="exp-tech">AWS</span><span class="exp-tech">Docker</span><span class="exp-tech">Kubernetes</span><span class="exp-tech">Terraform</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-inner">
+    <span class="section-label fade-up">Portfolio</span>
+    <h2 class="section-title fade-up">Highlighted <span class="accent">Projects</span></h2>
+    <div class="projects-grid">
+
+      <div class="project-card fade-up">
+        <div class="project-status live">Live · Production</div>
+        <div class="project-name">Talent Forge DevOps: Dockerised App with Full CI/CD Pipeline</div>
+        <p class="project-desc">A containerised web application with a complete end-to-end DevOps workflow. Every code push triggers GitHub Actions to build and push a Docker image to Docker Hub, which auto-deploys with zero manual steps.</p>
+        <div class="project-learned">
+          <div class="project-learned-label">What I Learned</div>
+          <p>How to wire Git to deployment end-to-end. Gitflow branching with PR-based merges, managing secrets in GitHub Actions, and how a single broken pipeline step reveals gaps in your whole mental model of the system.</p>
+        </div>
+        <div class="project-techs"><span class="project-tech">Docker</span><span class="project-tech">GitHub Actions</span><span class="project-tech">Docker Hub</span><span class="project-tech">CI/CD</span><span class="project-tech">Gitflow</span></div>
+        <div class="project-links"><a class="project-link" href="https://github.com/goodnessloweh-git/talent-forge-devops" target="_blank">→ GitHub</a></div>
+      </div>
+
+      <div class="project-card fade-up">
+        <div class="project-status live">Live · Production</div>
+        <div class="project-name">my-portfolio-pipeline: Jenkins CI/CD with Docker &amp; Slack</div>
+        <p class="project-desc">A Jenkins CI/CD pipeline that automatically builds, tests, and deploys a portfolio website as a Docker image — with Slack notifications at every stage. Pipeline runs: Checkout → Build (docker build → Nginx image) → Test (automated curl tests via test.sh) → Push to Docker Hub → Deploy.</p>
+        <div class="project-learned">
+          <div class="project-learned-label">What I Learned</div>
+          <p>How Jenkins reads a Jenkinsfile and orchestrates multi-stage pipelines. Debugging network issues between containers on the jenkins_default network, fixing curl output parsing in test scripts, and wiring Slack webhooks so every pipeline event sends a real notification to the team.</p>
+        </div>
+        <div class="project-techs"><span class="project-tech">Jenkins</span><span class="project-tech">Docker</span><span class="project-tech">Nginx</span><span class="project-tech">Bash</span><span class="project-tech">Slack Webhooks</span><span class="project-tech">CI/CD</span></div>
+        <div class="project-links"><a class="project-link" href="https://github.com/goodnessloweh-git/my-portfolio-pipeline" target="_blank">→ GitHub</a></div>
+      </div>
+
+      <div class="project-card fade-up">
+        <div class="project-status live">Live</div>
+        <div class="project-name">Terraform EC2 & S3 with Modules and Remote Backend</div>
+        <p class="project-desc">Provisioned AWS EC2 instances and S3 buckets using Terraform modules for reusable, clean infrastructure. Configured a remote backend for state management — infrastructure as code done properly.</p>
+        <div class="project-learned">
+          <div class="project-learned-label">What I Learned</div>
+          <p>Why remote state matters the moment you work with a team. Modules make Terraform readable and reusable — without them, you copy-paste configuration and create drift. State locking saved me from a race condition.</p>
+        </div>
+        <div class="project-techs"><span class="project-tech">Terraform</span><span class="project-tech">AWS EC2</span><span class="project-tech">S3</span><span class="project-tech">Remote Backend</span><span class="project-tech">IaC</span></div>
+        <div class="project-links"><a class="project-link" href="https://github.com/goodnessloweh-git/Terraform-project-EC2-and-S3-using-modules-with-remote-backend" target="_blank">→ GitHub</a></div>
+      </div>
+
+      <div class="project-card fade-up">
+        <div class="project-status live">Live</div>
+        <div class="project-name">Ansible Nginx Automation Across EC2 Nodes</div>
+        <p class="project-desc">Wrote Ansible playbooks to automate Nginx deployment across multiple AWS EC2 nodes. Implemented roles, handlers, group_vars, and Jinja2 templates for configuration management across environments.</p>
+        <div class="project-learned">
+          <div class="project-learned-label">What I Learned</div>
+          <p>Idempotency isn't just a word — it matters every time you re-run a playbook. Debugging SSH connectivity and Security Group rules across regions taught me more about AWS networking than any tutorial ever could.</p>
+        </div>
+        <div class="project-techs"><span class="project-tech">Ansible</span><span class="project-tech">Nginx</span><span class="project-tech">Jinja2</span><span class="project-tech">AWS EC2</span><span class="project-tech">SSH</span></div>
+        <div class="project-links"><a class="project-link" href="https://github.com/goodnessloweh-git" target="_blank">→ GitHub</a></div>
+      </div>
+
+      <div class="project-card fade-up">
+        <div class="project-status live">Live</div>
+        <div class="project-name">Portfolio Site — lowehtech.com</div>
+        <p class="project-desc">Built and deployed this personal portfolio with a custom domain. Configured DNS records, enforced HTTPS via Cloudflare, and set up automatic deployment on every push to main.</p>
+        <div class="project-learned">
+          <div class="project-learned-label">What I Learned</div>
+          <p>DNS propagation is not instant and TTL matters. Cloudflare proxying vs DNS-only mode behave very differently. And writing about your work publicly forces you to understand it more deeply than building it quietly.</p>
+        </div>
+        <div class="project-techs"><span class="project-tech">GitHub Pages</span><span class="project-tech">Cloudflare</span><span class="project-tech">DNS</span><span class="project-tech">HTTPS</span><span class="project-tech">Git</span></div>
+        <div class="project-links">
+          <a class="project-link" href="https://github.com/goodnessloweh-git/portfolio-site/tree/main/gasinforest.com/html/simone" target="_blank">→ GitHub</a>
+          <a class="project-link" href="https://lowehtech.com" target="_blank">→ Live</a>
+        </div>
+      </div>
+
+      <div class="project-card fade-up">
+        <div class="project-status progress">Incident · Learning</div>
+        <div class="project-name">AWS Security Incident Response</div>
+        <p class="project-desc">Responded to a real-world credential exposure incident where Terraform secrets were accidentally committed to a public GitHub repo, triggering unauthorised EC2 launches. Submitted AWS Trust & Safety case and remediated the breach.</p>
+        <div class="project-learned">
+          <div class="project-learned-label">What I Learned</div>
+          <p>One push to a public repo with secrets exposed can spin up infrastructure in seconds. .gitignore before you commit, never after. IAM least-privilege is not optional — and AWS Trust & Safety actually responds if you're fast and transparent.</p>
+        </div>
+        <div class="project-techs"><span class="project-tech">AWS IAM</span><span class="project-tech">Security</span><span class="project-tech">Terraform</span><span class="project-tech">Incident Response</span></div>
+        <div class="project-links"><a class="project-link" href="https://github.com/goodnessloweh-git" target="_blank">→ GitHub</a></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- LEARNING JOURNEY -->
+<section id="journey">
+  <div class="section-inner">
+    <span class="section-label fade-up">My Story</span>
+    <h2 class="section-title fade-up">Learning <span class="accent">Journey</span></h2>
+    <p style="color:var(--muted);font-size:0.9rem;max-width:600px;margin-bottom:3.5rem;line-height:1.8;" class="fade-up">Why I started, what I've built, and the kind of engineer I'm becoming.</p>
+
+    <div class="journey-grid">
+      <div class="journey-text">
+        <div class="journey-block fade-up">
+          <h3>Why I Joined the Program</h3>
+          <p>I come from a background in logistics and supply chain management. I spent years watching operations break down because of manual processes, poor handoffs, and systems that weren't talking to each other. Technology was always the thread I followed — and DevOps gave me the language to follow it all the way through. I joined this program because I wanted to be on the engineering side of those solutions. Not just a user of tools, but someone who builds and maintains the infrastructure that keeps things running.</p>
+        </div>
+        <div class="journey-block fade-up">
+          <h3>What I've Learned So Far</h3>
+          <p>I've gone from SSH-ing into my first EC2 instance and not knowing what I was looking at, to provisioning EKS clusters with Terraform, writing multi-node Ansible playbooks, and building CI/CD pipelines that run without anyone touching a server. I've broken things in production, responded to a real security incident, debugged multi-region networking failures, and kept going. Every error message I've ever fixed taught me more than the tutorials that never showed me what failure looks like. I'm <strong>comfortable being uncomfortable</strong> — and that's not something a course taught me. The projects did.</p>
+        </div>
+        <div class="journey-block fade-up">
+          <h3>The Engineer I'm Becoming</h3>
+          <p>I want to become a <strong>DevOps engineer</strong> who builds infrastructure that other developers love working with — secure, observable, automated from day one, and well-documented. I also want to be a bridge: bringing more African women into cloud and DevOps through <strong>She Builds Tech</strong>. Engineering isn't just a career path for me. It's something I'm building a life around — and I'm just getting started.</p>
+        </div>
+      </div>
+
+      <div class="journey-timeline">
+        <div class="tl-item fade-up">
+          <div class="tl-date">2024<br>Early</div>
+          <div class="tl-content"><h4>Linux &amp; Cloud Foundations</h4><p>SSH, EC2, S3, IAM, networking basics. First time a command I typed actually changed something on a remote server.</p></div>
+        </div>
+        <div class="tl-item fade-up">
+          <div class="tl-date">2024<br>Mid</div>
+          <div class="tl-content"><h4>Docker &amp; Containers</h4><p>Multi-stage builds, Docker Compose, Docker Hub. Understanding why "it works on my machine" is never good enough.</p></div>
+        </div>
+        <div class="tl-item fade-up">
+          <div class="tl-date">2025<br>Early</div>
+          <div class="tl-content"><h4>Terraform &amp; IaC</h4><p>Modules, remote backend, state management, EKS provisioning. Infrastructure should be code, not a memory.</p></div>
+        </div>
+        <div class="tl-item fade-up">
+          <div class="tl-date">2025<br>Mid</div>
+          <div class="tl-content"><h4>CI/CD &amp; GitHub Actions</h4><p>End-to-end pipelines, secrets management, Gitflow, automated testing. No more manual deploys.</p></div>
+        </div>
+        <div class="tl-item fade-up">
+          <div class="tl-date">2025<br>Late</div>
+          <div class="tl-content"><h4>Ansible &amp; Config Management</h4><p>Playbooks, roles, Jinja2, multi-node Nginx. Learning what idempotency actually means in practice.</p></div>
+        </div>
+        <div class="tl-item fade-up">
+          <div class="tl-date">Now</div>
+          <div class="tl-content"><h4>Security &amp; Incident Response</h4><p>Real credential exposure. Real consequences. Real remediation. Secrets hygiene comes first now, not last.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTRIBUTE -->
+<section id="contribute">
+  <div class="section-inner">
+    <span class="section-label fade-up">My Value</span>
+    <h2 class="section-title fade-up">What I <span class="accent">Contribute</span></h2>
+    <div class="contribute-grid">
+      <div class="contribute-card fade-up"><div class="contribute-num">01</div><div class="contribute-title">Containerising with Docker</div><p class="contribute-desc">I package applications into Docker containers, write Dockerfiles, manage images on Docker Hub, and make sure what runs on my machine runs exactly the same everywhere else.</p></div>
+      <div class="contribute-card fade-up"><div class="contribute-num">02</div><div class="contribute-title">Building CI/CD Pipelines</div><p class="contribute-desc">I connect Git to deployment. A push to main triggers a GitHub Actions workflow that builds, tests, and ships the application automatically. No one has to touch a server.</p></div>
+      <div class="contribute-card fade-up"><div class="contribute-num">03</div><div class="contribute-title">Deploying to Cloud Platforms</div><p class="contribute-desc">I deploy web applications to AWS, configure environments correctly, and make sure things stay up after they go live.</p></div>
+      <div class="contribute-card fade-up"><div class="contribute-num">04</div><div class="contribute-title">Writing Infrastructure as Code</div><p class="contribute-desc">I use Terraform to define and provision infrastructure so environments are consistent, repeatable, and version-controlled — not configured by hand and forgotten.</p></div>
+      <div class="contribute-card fade-up"><div class="contribute-num">05</div><div class="contribute-title">Setting Up Monitoring & Alerts</div><p class="contribute-desc">I set up UptimeRobot, Prometheus, and Grafana so the team knows about problems before users do. Downtime alerts, dashboards, and health checks built in.</p></div>
+      <div class="contribute-card fade-up"><div class="contribute-num">06</div><div class="contribute-title">Documenting What I Build</div><p class="contribute-desc">Every project gets a proper README, architecture notes, and clear steps to reproduce it. Good documentation is part of the work, not an afterthought.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SHE BUILDS TECH -->
+<section id="shebuildstech">
+  <div class="section-inner">
+    <div class="sbt-grid">
+      <div class="sbt-text fade-up">
+        <span class="section-label">Community</span>
+        <h2 class="section-title">She Builds <span class="accent">Tech</span></h2>
+        <p>She Builds Tech is a community for women in tech and women transitioning into the industry. I started it because I wanted more women to know there is space for them in tech — and that they don't have to figure it out alone.</p>
+        <p>We share stories, build skills, and support each other. Because when one woman makes it, she opens the door for others.</p>
+        <div class="sbt-quote">"I started this community because I wanted other women to know: you don't have to have everything figured out before you begin. You just have to begin."<br><strong>— Loweh Goodness, Founder</strong></div>
+        <div class="sbt-founder-card">
+          <h4>Loweh Goodness — Founder</h4>
+          <p>Junior DevOps Engineer · Cameroon · Building infrastructure by day, building community always. She Builds Tech was founded to make sure no woman has to figure out tech alone.</p>
+        </div>
+      </div>
+      <div class="fade-up">
+        <div class="sbt-pillars">
+          <div class="sbt-pillar"><h4>Empowerment</h4><p>Equipping women with the knowledge and confidence they need to break into tech, no matter where they are starting from.</p></div>
+          <div class="sbt-pillar"><h4>Storytelling</h4><p>Sharing real stories of women in tech so others can see themselves in those journeys and know it is possible.</p></div>
+          <div class="sbt-pillar"><h4>Community</h4><p>A space where women support each other, share resources, and grow together in their tech careers.</p></div>
+          <div class="sbt-pillar"><h4>Access</h4><p>Removing the barriers that keep talented women out — mentorship, resources, visibility, and honest conversation about the real path in.</p></div>
+          <div class="sbt-pillar"><h4>Representation</h4><p>Making sure more women are visible in DevOps and beyond — because seeing yourself in a space is the first step to believing you belong there.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="contact-grid">
+      <div class="fade-up">
+        <span class="section-label">Get in Touch</span>
+        <h2 class="section-title">Let's <span class="accent">Connect</span></h2>
+        <div class="contact-links">
+          <a class="contact-link" href="mailto:goodnessloweh5@gmail.com"><div><div class="contact-link-label">Email</div><div class="contact-link-value">goodnessloweh5@gmail.com</div></div></a>
+          <a class="contact-link" href="https://wa.me/237682645478" target="_blank"><div><div class="contact-link-label">WhatsApp</div><div class="contact-link-value">+237 682 645 478</div></div></a>
+          <a class="contact-link" href="https://www.linkedin.com/in/loweh-goodness63/" target="_blank"><div><div class="contact-link-label">LinkedIn</div><div class="contact-link-value">Loweh Goodness</div></div></a>
+          <a class="contact-link" href="https://github.com/goodnessloweh-git" target="_blank"><div><div class="contact-link-label">GitHub</div><div class="contact-link-value">goodnessloweh-git</div></div></a>
+        </div>
+      </div>
+      <div class="contact-right fade-up">
+        <h3>Hiring, collaborating, or just want to say hi?</h3>
+        <p>I'm actively looking for internship opportunities and junior DevOps roles where I can do real work and grow alongside people who know more than me. I show up prepared, ask good questions, and put in the hours to figure things out.</p>
+        <ul class="open-list">
+          <li>Open to internships and junior DevOps roles</li>
+          <li>Remote or Cameroon-based positions</li>
+          <li>Available for project collaborations</li>
+          <li>Responds within 24 hours</li>
+        </ul>
+        <div class="contact-btns">
+          <a class="btn-primary" href="mailto:goodnessloweh5@gmail.com">Send an Email</a>
+          <a class="btn-outline" href="https://wa.me/237682645478" target="_blank">WhatsApp Me</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-name">Loweh Goodness</div>
+    <div class="footer-sub">Junior DevOps Engineer · Founder, She Builds Tech · Cameroon 🇨🇲</div>
+    <div class="footer-links">
+      <a href="https://www.linkedin.com/in/loweh-goodness63/" target="_blank">LinkedIn</a>
+      <a href="https://github.com/goodnessloweh-git" target="_blank">GitHub</a>
+      <a href="mailto:goodnessloweh5@gmail.com">Email</a>
+      <a href="https://wa.me/237682645478" target="_blank">WhatsApp</a>
+      <a href="https://lowehtech.com" target="_blank">lowehtech.com</a>
+    </div>
+    <div class="footer-copy">© 2026 Loweh Goodness · Built with HTML, CSS & JavaScript · Deployed on GitHub Pages via Cloudflare</div>
+  </div>
+</footer>
+
+<script>
+/* ── SCROLL REVEAL + SKILL BARS ── */
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      const bar = e.target.querySelector('.skill-bar-fill');
+      if (bar) setTimeout(() => { bar.style.width = bar.dataset.width + '%'; }, 150);
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+/* ── ACTIVE NAV HIGHLIGHT ── */
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.id; });
+  navLinks.forEach(a => { a.style.color = a.getAttribute('href') === '#' + current ? 'var(--accent)' : ''; });
+});
+
+/* ── DARK / LIGHT TOGGLE — starts LIGHT ── */
+let isDark = false;
+function toggleTheme() {
+  isDark = !isDark;
+  document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+  document.getElementById('themeBtn').textContent = isDark ? '☀️ Light' : '🌙 Dark';
+}
+document.getElementById('themeBtn').addEventListener('click', toggleTheme);
+
+/* ── HAMBURGER ── */
+const ham = document.getElementById('hamburger');
+const mNav = document.getElementById('mobileNav');
+ham.addEventListener('click', () => mNav.classList.toggle('open'));
+function closeMobileNav() { mNav.classList.remove('open'); }
+
+/* ── CV — opens printable page, user saves as PDF ── */
+function downloadCV() {
+  const cvHTML = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loweh Goodness — CV</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 13px;
+    color: #1a1a1a;
+    background: #fff;
+    padding: 48px 56px;
+    max-width: 820px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* HEADER */
+  .cv-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 2px solid #e8622a;
+    padding-bottom: 20px;
+    margin-bottom: 24px;
+  }
+  .cv-name {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1a1a1a;
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+  }
+  .cv-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #e8622a;
+    margin-top: 4px;
+  }
+  .cv-contact {
+    text-align: right;
+    font-size: 12px;
+    color: #444;
+    line-height: 1.9;
+  }
+  .cv-contact a { color: #e8622a; text-decoration: none; }
+
+  /* SECTIONS */
+  .cv-section { margin-bottom: 22px; }
+  .cv-section-title {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: #e8622a;
+    border-bottom: 1px solid #f0d0c4;
+    padding-bottom: 4px;
+    margin-bottom: 12px;
+  }
+  .cv-body-text {
+    color: #333;
+    font-size: 12.5px;
+    line-height: 1.75;
+  }
+
+  /* SKILLS GRID */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 32px;
+  }
+  .skill-row { display: flex; gap: 8px; font-size: 12px; }
+  .skill-label { font-weight: 600; color: #1a1a1a; min-width: 110px; flex-shrink: 0; }
+  .skill-value { color: #444; }
+
+  /* EXPERIENCE */
+  .exp-item { margin-bottom: 16px; }
+  .exp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 2px;
+  }
+  .exp-role { font-weight: 700; font-size: 13px; color: #1a1a1a; }
+  .exp-date { font-size: 11px; color: #888; white-space: nowrap; }
+  .exp-company { font-size: 12px; color: #e8622a; font-weight: 500; margin-bottom: 6px; }
+  .exp-points { list-style: none; padding: 0; }
+  .exp-points li {
+    font-size: 12px;
+    color: #444;
+    padding-left: 14px;
+    position: relative;
+    margin-bottom: 3px;
+    line-height: 1.6;
+  }
+  .exp-points li::before {
+    content: '–';
+    position: absolute;
+    left: 0;
+    color: #e8622a;
+  }
+
+  /* PROJECTS */
+  .project-item { margin-bottom: 14px; }
+  .project-name { font-weight: 700; font-size: 12.5px; color: #1a1a1a; }
+  .project-link { font-size: 11px; color: #e8622a; }
+  .project-desc { font-size: 12px; color: #444; margin-top: 2px; line-height: 1.6; }
+  .project-tags {
+    display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px;
+  }
+  .project-tag {
+    background: #fdf0eb; border: 1px solid #f0d0c4;
+    color: #a03010; padding: 1px 7px;
+    border-radius: 3px; font-size: 10.5px;
+  }
+
+  /* COMMUNITY */
+  .community-title { font-weight: 700; font-size: 13px; color: #1a1a1a; }
+  .community-desc { font-size: 12px; color: #444; margin-top: 3px; }
+
+  /* FOOTER */
+  .cv-footer {
+    margin-top: 28px;
+    padding-top: 14px;
+    border-top: 1px solid #eee;
+    font-size: 10.5px;
+    color: #aaa;
+    text-align: center;
+  }
+
+  /* PRINT */
+  @media print {
+    body { padding: 32px 40px; }
+    .print-btn { display: none !important; }
+    a { color: #e8622a !important; }
+  }
+
+  .print-btn {
+    display: block;
+    margin: 0 auto 32px auto;
+    background: #e8622a;
+    color: #fff;
+    border: none;
+    padding: 10px 28px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .print-btn:hover { background: #f0854d; }
+</style>
+</head>
+<body>
+
+<button class="print-btn" onclick="window.print()">Save as PDF — File > Print > Save as PDF</button>
+
+<div class="cv-header">
+  <div>
+    <div class="cv-name">Loweh Goodness</div>
+    <div class="cv-title">Junior DevOps Engineer</div>
+  </div>
+  <div class="cv-contact">
+    <div>goodnessloweh5@gmail.com</div>
+    <div>+237 682 645 478</div>
+    <div><a href="https://linkedin.com/in/loweh-goodness63">linkedin.com/in/loweh-goodness63</a></div>
+    <div><a href="https://github.com/goodnessloweh-git">github.com/goodnessloweh-git</a></div>
+    <div><a href="https://lowehtech.com">lowehtech.com</a></div>
+    <div>Cameroon · Remote-ready</div>
+  </div>
+</div>
+
+<div class="cv-section">
+  <div class="cv-section-title">Profile</div>
+  <p class="cv-body-text">
+    Junior DevOps engineer with hands-on experience building cloud infrastructure, CI/CD pipelines,
+    containerised deployments, and configuration management automation. Background in logistics and
+    supply chain — which means I understand what it costs when systems fail and why automation matters.
+    Trained at NextGen Playground (2025–present) and Primus Learning (2024–2025).
+    Founder of She Builds Tech, a community supporting women entering the tech industry.
+    Open to junior DevOps roles and internship programmes, remote or Cameroon-based.
+  </p>
+</div>
+
+<div class="cv-section">
+  <div class="cv-section-title">Skills</div>
+  <div class="skills-grid">
+    <div class="skill-row"><span class="skill-label">Cloud & IaC</span><span class="skill-value">AWS (EC2, EKS, S3, IAM, VPC), Terraform</span></div>
+    <div class="skill-row"><span class="skill-label">Version Control</span><span class="skill-value">Git, GitHub, Branching, Pull Requests, PAT Auth</span></div>
+    <div class="skill-row"><span class="skill-label">Containers</span><span class="skill-value">Docker, Kubernetes, Docker Hub, Minikube</span></div>
+    <div class="skill-row"><span class="skill-label">OS & Networking</span><span class="skill-value">Linux, Ubuntu, SSH, DNS, Security Groups</span></div>
+    <div class="skill-row"><span class="skill-label">CI/CD</span><span class="skill-value">Jenkins, GitHub Actions, Gitflow, Bash</span></div>
+    <div class="skill-row"><span class="skill-label">Monitoring</span><span class="skill-value">Prometheus, Grafana, UptimeRobot</span></div>
+    <div class="skill-row"><span class="skill-label">Config Mgmt</span><span class="skill-value">Ansible, Jinja2, YAML, Roles, Handlers</span></div>
+    <div class="skill-row"><span class="skill-label">Security</span><span class="skill-value">IAM Policies, Secrets Hygiene, HTTPS/SSL</span></div>
+  </div>
+</div>
+
+<div class="cv-section">
+  <div class="cv-section-title">Experience</div>
+
+  <div class="exp-item">
+    <div class="exp-header">
+      <div class="exp-role">DevOps Engineer</div>
+      <div class="exp-date">2025 – Present</div>
+    </div>
+    <div class="exp-company">NextGen Playground · Remote</div>
+    <ul class="exp-points">
+      <li>Built a Jenkins CI/CD pipeline that automatically builds, tests, and deploys a portfolio site as a Docker/Nginx image with Slack notifications at every stage</li>
+      <li>Automated end-to-end CI/CD pipelines using GitHub Actions — push to main triggers build, test, and Docker Hub push with zero manual steps</li>
+      <li>Wrote Ansible playbooks to automate Nginx deployment across multiple AWS EC2 nodes using roles, handlers, and Jinja2 templates</li>
+      <li>Provisioned AWS infrastructure (EC2, S3, EKS) using Terraform modules with remote backend state management</li>
+      <li>Responded to a real AWS credential exposure incident — submitted Trust and Safety case, rotated keys, hardened IAM and secrets hygiene</li>
+      <li>Practised Gitflow branching, PR-based merging, and structured version control throughout all projects</li>
+    </ul>
+  </div>
+
+  <div class="exp-item">
+    <div class="exp-header">
+      <div class="exp-role">DevOps Student</div>
+      <div class="exp-date">2024 – 2025</div>
+    </div>
+    <div class="exp-company">Primus Learning · Cameroon</div>
+    <ul class="exp-points">
+      <li>Studied Linux system administration, networking fundamentals, and server management</li>
+      <li>Learned AWS services (EC2, S3, IAM, VPC) with practical hands-on exercises</li>
+      <li>Introduced to Docker containerisation, Kubernetes orchestration, Terraform, and Ansible</li>
+    </ul>
+  </div>
+</div>
+
+<div class="cv-section">
+  <div class="cv-section-title">Projects</div>
+
+  <div class="project-item">
+    <div class="project-name">my-portfolio-pipeline — Jenkins CI/CD with Docker &amp; Slack</div>
+    <div class="project-link">github.com/goodnessloweh-git/my-portfolio-pipeline</div>
+    <div class="project-desc">Multi-stage Jenkinsfile pipeline: Checkout, Build (Docker/Nginx), Test (automated curl via test.sh), Push to Docker Hub, Deploy — with Slack notifications at every stage.</div>
+    <div class="project-tags"><span class="project-tag">Jenkins</span><span class="project-tag">Docker</span><span class="project-tag">Nginx</span><span class="project-tag">Bash</span><span class="project-tag">Slack Webhooks</span></div>
+  </div>
+
+  <div class="project-item">
+    <div class="project-name">Talent Forge — Dockerised App with Full CI/CD Pipeline</div>
+    <div class="project-link">github.com/goodnessloweh-git/talent-forge-devops</div>
+    <div class="project-desc">Containerised web application with GitHub Actions CI/CD. Every push to main builds and pushes a Docker image to Docker Hub automatically.</div>
+    <div class="project-tags"><span class="project-tag">Docker</span><span class="project-tag">GitHub Actions</span><span class="project-tag">Docker Hub</span><span class="project-tag">Gitflow</span></div>
+  </div>
+
+  <div class="project-item">
+    <div class="project-name">Terraform EC2 &amp; S3 with Modules and Remote Backend</div>
+    <div class="project-link">github.com/goodnessloweh-git/Terraform-project-EC2-and-S3-using-modules-with-remote-backend</div>
+    <div class="project-desc">Provisioned AWS EC2 and S3 using reusable Terraform modules with remote state backend for team-safe infrastructure management.</div>
+    <div class="project-tags"><span class="project-tag">Terraform</span><span class="project-tag">AWS EC2</span><span class="project-tag">S3</span><span class="project-tag">IaC</span></div>
+  </div>
+
+  <div class="project-item">
+    <div class="project-name">Ansible Nginx Automation Across EC2 Nodes</div>
+    <div class="project-desc">Automated Nginx deployment across multiple AWS EC2 nodes using Ansible roles, handlers, group_vars, and Jinja2 templates.</div>
+    <div class="project-tags"><span class="project-tag">Ansible</span><span class="project-tag">Nginx</span><span class="project-tag">Jinja2</span><span class="project-tag">AWS EC2</span><span class="project-tag">SSH</span></div>
+  </div>
+
+  <div class="project-item">
+    <div class="project-name">Portfolio Site — lowehtech.com</div>
+    <div class="project-link">lowehtech.com · github.com/goodnessloweh-git/portfolio-site</div>
+    <div class="project-desc">Personal portfolio deployed on GitHub Pages with Cloudflare DNS, CDN, and SSL. Auto-deploys on every push to main.</div>
+    <div class="project-tags"><span class="project-tag">GitHub Pages</span><span class="project-tag">Cloudflare</span><span class="project-tag">DNS</span><span class="project-tag">HTTPS</span></div>
+  </div>
+</div>
+
+<div class="cv-section">
+  <div class="cv-section-title">Community</div>
+  <div class="community-title">Founder — She Builds Tech</div>
+  <div class="community-desc">A community for women entering and transitioning into the tech industry. Focus areas: empowerment, mentorship, storytelling, and representation in DevOps and cloud engineering.</div>
+</div>
+
+<div class="cv-footer">Loweh Goodness · goodnessloweh5@gmail.com · lowehtech.com · Cameroon · 2026</div>
+
+</body>
+</html>`;
+
+  const blob = new Blob([cvHTML], { type: 'text/html' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.target = '_blank';
+  a.click();
+}
+document.getElementById('cvBtnNav').addEventListener('click', downloadCV);
+document.getElementById('cvBtnHero').addEventListener('click', downloadCV);
+</script>
 </body>
 </html>
